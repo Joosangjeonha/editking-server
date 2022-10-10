@@ -17,7 +17,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -52,7 +51,6 @@ public class User extends AbstractTimestamp implements UserDetails {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("STANDARD")
     private PlanStatus plan;
 
     @OneToMany(mappedBy = "user")
@@ -64,8 +62,7 @@ public class User extends AbstractTimestamp implements UserDetails {
         String name,
         String authenticationCode,
         String provider,
-        String refreshToken,
-        PlanStatus plan
+        String refreshToken
     ) {
         if (name == null) {
             throw new BadRequestException("이름은 필수값입니다.");
@@ -79,16 +76,13 @@ public class User extends AbstractTimestamp implements UserDetails {
         if (refreshToken == null) {
             throw new BadRequestException("refreshToken은 필수값입니다.");
         }
-        if (plan == null) {
-            throw new BadRequestException("plan은 필수값입니다.");
-        }
 
         this.id = id;
         this.name = name;
         this.authenticationCode = authenticationCode;
         this.provider = provider;
         this.refreshToken = refreshToken;
-        this.plan = plan;
+        this.plan = PlanStatus.STANDARD;
     }
 
     @Override
@@ -102,7 +96,9 @@ public class User extends AbstractTimestamp implements UserDetails {
     }
 
     @Override
-    public String getUsername() { return getName(); }
+    public String getUsername() {
+        return getName();
+    }
 
     @Override
     public boolean isAccountNonExpired() {

@@ -20,7 +20,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import sogang.capstone.editking.constant.FormStatus;
@@ -52,7 +51,6 @@ public class Form extends AbstractTimestamp {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("STANDARD")
     private FormStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,7 +69,6 @@ public class Form extends AbstractTimestamp {
         String company,
         String title,
         Timestamp dueDate,
-        FormStatus status,
         User user
     ) {
         if (company == null) {
@@ -83,14 +80,12 @@ public class Form extends AbstractTimestamp {
         if (dueDate == null) {
             throw new BadRequestException("유저는 필수값입니다.");
         }
-        if (status == null) {
-            throw new BadRequestException("상태는 필수값입니다.");
-        }
+        
         this.id = id;
         this.company = company;
         this.title = title;
         this.dueDate = dueDate;
-        this.status = status;
+        this.status = FormStatus.WRITING;
         this.user = user;
     }
 }
