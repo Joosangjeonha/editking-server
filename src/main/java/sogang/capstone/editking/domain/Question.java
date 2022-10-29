@@ -29,13 +29,13 @@ public class Question extends AbstractTimestamp {
     private Long id;
 
     @Column(nullable = false)
-    private Long index;
+    private Long idx;
 
     @Column(nullable = false, length = 20)
     private String title;
 
     @Column(nullable = false)
-    private Long limit;
+    private Long maximum;
 
     @Column(columnDefinition = "TEXT")
     private String content;
@@ -47,19 +47,19 @@ public class Question extends AbstractTimestamp {
     @Builder()
     public Question(
         Long id,
-        Long index,
+        Long idx,
         String title,
-        Long limit,
+        Long maximum,
         String content,
         Form form
     ) {
-        if (index == null) {
+        if (idx == null) {
             throw new BadRequestException("항목 번호는 필수값입니다.");
         }
         if (title == null) {
             throw new BadRequestException("제목은 필수값입니다.");
         }
-        if (limit == null) {
+        if (maximum == null) {
             throw new BadRequestException("제한 글자 수는 필수값입니다.");
         }
         if (content == null) {
@@ -70,9 +70,9 @@ public class Question extends AbstractTimestamp {
         }
 
         this.id = id;
-        this.index = index;
+        this.idx = idx;
         this.title = title;
-        this.limit = limit;
+        this.maximum = maximum;
         this.content = content;
         this.form = form;
     }
