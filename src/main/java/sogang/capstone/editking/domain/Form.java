@@ -3,7 +3,9 @@ package sogang.capstone.editking.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.sql.Timestamp;
 import java.util.List;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -21,7 +24,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicUpdate;
 import sogang.capstone.editking.constant.FormStatus;
 import sogang.capstone.editking.exception.BadRequestException;
 
@@ -30,16 +32,12 @@ import sogang.capstone.editking.exception.BadRequestException;
 @Entity
 @Table(name = "Form")
 @NoArgsConstructor
-@DynamicUpdate
 @EqualsAndHashCode(of = "id")
 public class Form extends AbstractTimestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, length = 20)
-    private String company;
 
     @Column(nullable = false, length = 20)
     private String title;
@@ -57,7 +55,13 @@ public class Form extends AbstractTimestamp {
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "form")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "companyId", nullable = false)
+    private Company company;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "Question", joinColumns = @JoinColumn(name = "orderId"))
+    @OrderColumn(name = "questionId")
     private List<Question> questionList;
 
     @OneToMany(mappedBy = "form")
@@ -66,26 +70,26 @@ public class Form extends AbstractTimestamp {
     @Builder()
     public Form(
         Long id,
-        String company,
         String title,
         Timestamp dueDate,
-        User user
+        User user,
+        Company company
     ) {
-        if (company == null) {
-            throw new BadRequestException("기업은 필수값입니다.");
-        }
         if (title == null) {
             throw new BadRequestException("제목은 필수값입니다.");
         }
         if (dueDate == null) {
             throw new BadRequestException("유저는 필수값입니다.");
         }
-        
+        if (company == null) {
+            throw new BadRequestException("기업은 필수값입니다.");
+        }
+
         this.id = id;
-        this.company = company;
         this.title = title;
         this.dueDate = dueDate;
         this.status = FormStatus.WRITING;
         this.user = user;
+        this.company = company;
     }
 }

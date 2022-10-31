@@ -1,26 +1,18 @@
 package sogang.capstone.editking.domain;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import sogang.capstone.editking.exception.BadRequestException;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "Question")
-@NoArgsConstructor
+@Embeddable
 @EqualsAndHashCode(of = "id")
 public class Question extends AbstractTimestamp {
 
@@ -43,6 +35,9 @@ public class Question extends AbstractTimestamp {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "formId", nullable = false)
     private Form form;
+
+    protected Question() {
+    }
 
     @Builder()
     public Question(

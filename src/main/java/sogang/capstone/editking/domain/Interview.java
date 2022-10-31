@@ -39,6 +39,10 @@ public class Interview extends AbstractTimestamp {
     @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "companyId", nullable = false)
+    private Company company;
+    
     @Builder()
     public Interview(
         Long id,
