@@ -1,8 +1,11 @@
 package sogang.capstone.editking.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.sql.Timestamp;
 import java.util.List;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,12 +16,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import sogang.capstone.editking.constant.FormStatus;
 import sogang.capstone.editking.exception.BadRequestException;
 
@@ -38,6 +43,8 @@ public class Form extends AbstractTimestamp {
     private String title;
 
     @Column(nullable = false)
+    @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Timestamp dueDate;
 
     @Column(nullable = false)
@@ -52,7 +59,9 @@ public class Form extends AbstractTimestamp {
     @JoinColumn(name = "companyId", nullable = false)
     private Company company;
 
-    @OneToMany(mappedBy = "form")
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "Question", joinColumns = @JoinColumn(name = "orderId"))
+    @OrderColumn(name = "questionId")
     private List<Question> questionList;
 
     @OneToMany(mappedBy = "form")
