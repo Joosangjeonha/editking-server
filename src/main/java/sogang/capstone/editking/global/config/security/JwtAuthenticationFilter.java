@@ -12,13 +12,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import sogang.capstone.editking.global.exception.UnauthorizedException;
-import sogang.capstone.editking.user.JwtTokenServiceImpl;
+import sogang.capstone.editking.user.application.JwtTokenService;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
-    private final JwtTokenServiceImpl jwtTokenService;
+    private final JwtTokenService jwtTokenService;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

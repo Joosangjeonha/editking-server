@@ -15,7 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import sogang.capstone.editking.user.JwtTokenServiceImpl;
+import sogang.capstone.editking.user.application.JwtTokenService;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         "/v2/api-docs",
         "/webjars/**"
     };
-    private final JwtTokenServiceImpl jwtTokenService;
+    private final JwtTokenService jwtTokenService;
     private final JwtExceptionFilter jwtExceptionFilter;
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -50,8 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/health").permitAll()
             .antMatchers(SwaggerPatterns).permitAll()
             .antMatchers("/kakao/login").permitAll()
-            .antMatchers("/apple/login").permitAll()
-            .antMatchers("/apple/revoke").permitAll()
+            .antMatchers("/naver/login").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(jwtAuthenticationFilter,
@@ -70,8 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CorsConfiguration getDefaultCorsConfiguration() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(
-            Arrays.asList("http://localhost:3000", "https://bankids.click", "https://bankidz.com",
-                "https://api.bankidz.com", "https://appleid.apple.com"));
+            Arrays.asList("http://localhost:3000"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
