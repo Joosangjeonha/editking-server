@@ -10,13 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 import sogang.capstone.editking.global.config.CommonResponse;
 import sogang.capstone.editking.user.application.JwtTokenService;
 import sogang.capstone.editking.user.application.KakaoService;
+import sogang.capstone.editking.user.application.NaverService;
 import sogang.capstone.editking.user.application.UserAuthenticationService;
 import sogang.capstone.editking.user.application.dto.TokenDTO;
 import sogang.capstone.editking.user.application.dto.UserIdDTO;
 import sogang.capstone.editking.user.application.dto.oauth.KakaoTokenDTO;
 import sogang.capstone.editking.user.application.dto.oauth.KakaoUserDTO;
+import sogang.capstone.editking.user.application.dto.oauth.NaverTokenDTO;
+import sogang.capstone.editking.user.application.dto.oauth.NaverUserDTO;
 import sogang.capstone.editking.user.application.dto.oauth.UserInfoDTO;
 import sogang.capstone.editking.user.application.request.KakaoRequest;
+import sogang.capstone.editking.user.application.request.NaverRequest;
 
 @RestController
 @RequestMapping("/user")
@@ -24,6 +28,7 @@ import sogang.capstone.editking.user.application.request.KakaoRequest;
 public class UserAuthenticationController {
 
     private final KakaoService kakaoService;
+    private final NaverService naverService;
     private final UserAuthenticationService userAuthenticationService;
     private final JwtTokenService jwtTokenService;
 
@@ -36,6 +41,24 @@ public class UserAuthenticationController {
 
         UserIdDTO userIdDTO = userAuthenticationService.loginWithUserInformation(
             new UserInfoDTO(kakaoUserDTO, "kakao"));
+
+        String refreshToken = jwtTokenService.encodeJwtRefreshToken(userIdDTO);
+        String accessToken = jwtTokenService.encodeJwtToken(userIdDTO);
+
+        userAuthenticationService.updateRefreshToken(userIdDTO, refreshToken);
+
+        return CommonResponse.onSuccess(new TokenDTO(accessToken));
+    }
+
+    @PostMapping(value = "/naver", produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public CommonResponse<TokenDTO> loginWithNaver(@Valid @RequestBody NaverRequest naverRequest) {
+
+        NaverTokenDTO naverTokenDTO = naverService.getNaverAccessToken(naverRequest);
+        NaverUserDTO naverUserDTO = naverService.getNaverUserCode(naverTokenDTO);
+
+        UserIdDTO userIdDTO = userAuthenticationService.loginWithUserInformation(
+            new UserInfoDTO(naverUserDTO, "naver"));
 
         String refreshToken = jwtTokenService.encodeJwtRefreshToken(userIdDTO);
         String accessToken = jwtTokenService.encodeJwtToken(userIdDTO);

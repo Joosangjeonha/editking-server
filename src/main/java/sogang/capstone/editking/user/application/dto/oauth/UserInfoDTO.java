@@ -29,4 +29,9 @@ public class UserInfoDTO {
         this.provider = provider;
     }
 
+    public UserInfoDTO(NaverUserDTO naverUserDTO, String provider) {
+        this.authenticationCode = naverUserDTO.getResponse().getAuthenticationCode();
+        this.name = naverUserDTO.getResponse().getNickname();
+        this.provider = provider;
+    }
 }
