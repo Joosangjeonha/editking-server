@@ -16,7 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import sogang.capstone.editking.user.application.CustomUserDetailServiceImpl.TokenDTO;
+import sogang.capstone.editking.user.application.dto.UserIdDTO;
 
 @RequiredArgsConstructor
 @Service
@@ -26,16 +26,16 @@ public class JwtTokenService {
     @Value("${jwt.secret}")
     private String JWT_SECRET;
 
-    public String encodeJwtToken(TokenDTO tokenDTO) {
+    public String encodeJwtToken(UserIdDTO userIdDTO) {
         Date now = new Date();
 
         return Jwts.builder()
             .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
             .setIssuer("bankids")
             .setIssuedAt(now)
-            .setSubject(tokenDTO.getId().toString())
+            .setSubject(userIdDTO.getId().toString())
             .setExpiration(new Date(now.getTime() + Duration.ofDays(180).toMillis()))
-            .claim("id", tokenDTO.getId())
+            .claim("id", userIdDTO.getId())
             .claim("roles", "USER")
             .signWith(SignatureAlgorithm.HS256,
                 Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
@@ -43,13 +43,13 @@ public class JwtTokenService {
             .compact();
     }
 
-    public String encodeJwtRefreshToken(Long id) {
+    public String encodeJwtRefreshToken(UserIdDTO userIdDTO) {
         Date now = new Date();
         return Jwts.builder()
             .setIssuedAt(now)
-            .setSubject(id.toString())
+            .setSubject(userIdDTO.getId().toString())
             .setExpiration(new Date(now.getTime() + Duration.ofMinutes(20160).toMillis()))
-            .claim("id", id)
+            .claim("id", userIdDTO.getId())
             .claim("roles", "USER")
             .signWith(SignatureAlgorithm.HS256,
                 Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(

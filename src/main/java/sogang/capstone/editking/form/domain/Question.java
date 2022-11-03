@@ -1,25 +1,17 @@
 package sogang.capstone.editking.form.domain;
 
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import sogang.capstone.editking.global.common.AbstractTimestamp;
 import sogang.capstone.editking.global.exception.BadRequestException;
 
 @Embeddable
-@EqualsAndHashCode(of = "id")
 public class Question extends AbstractTimestamp {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false)
     private Long idx;
@@ -64,8 +56,6 @@ public class Question extends AbstractTimestamp {
         if (form == null) {
             throw new BadRequestException("자기소개서는 필수값입니다.");
         }
-
-        this.id = id;
         this.idx = idx;
         this.title = title;
         this.maximum = maximum;

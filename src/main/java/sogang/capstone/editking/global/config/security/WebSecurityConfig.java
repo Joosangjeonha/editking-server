@@ -49,8 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
             .antMatchers("/health").permitAll()
             .antMatchers(SwaggerPatterns).permitAll()
-            .antMatchers("/kakao/login").permitAll()
-            .antMatchers("/naver/login").permitAll()
+            .antMatchers("/user/kakao").permitAll()
+            .antMatchers("/user/naver").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(jwtAuthenticationFilter,

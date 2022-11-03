@@ -84,6 +84,10 @@ public class User extends AbstractTimestamp implements UserDetails {
         this.plan = PlanStatus.STANDARD;
     }
 
+    public void setNewRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("USER"));
