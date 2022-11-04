@@ -12,7 +12,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void userLogout(User user) {
         user.setNewRefreshToken("");
     }
