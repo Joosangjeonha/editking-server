@@ -1,5 +1,6 @@
 package sogang.capstone.editking.user.presentation;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @Operation(summary = "로그아웃")
     @PatchMapping(value = "/logout", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse<TokenDTO> logout(@AuthenticationPrincipal User user) {
@@ -29,6 +31,7 @@ public class UserController {
         return CommonResponse.onSuccess(null);
     }
 
+    @Operation(summary = "유저 정보")
     @GetMapping(value = "", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse<UserDTO> getUserAccount(@AuthenticationPrincipal User user) {

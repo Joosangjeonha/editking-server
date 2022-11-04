@@ -24,7 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] SwaggerPatterns = {
         "/swagger-resources/**",
         "/swagger-ui/**",
-        "/v2/api-docs",
+        "/v3/api-docs/**",
+        "/editking.html",
         "/webjars/**"
     };
     private final JwtTokenService jwtTokenService;

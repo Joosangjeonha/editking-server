@@ -1,5 +1,6 @@
 package sogang.capstone.editking.user.presentation;
 
+import io.swagger.v3.oas.annotations.Operation;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ public class UserAuthenticationController {
     private final UserAuthenticationService userAuthenticationService;
     private final JwtTokenService jwtTokenService;
 
+    @Operation(summary = "카카오 로그인")
     @PostMapping(value = "/kakao", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse<TokenDTO> loginWithKakao(@Valid @RequestBody KakaoRequest kakaoRequest) {
@@ -50,6 +52,7 @@ public class UserAuthenticationController {
         return CommonResponse.onSuccess(new TokenDTO(accessToken));
     }
 
+    @Operation(summary = "네이버 로그인")
     @PostMapping(value = "/naver", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse<TokenDTO> loginWithNaver(@Valid @RequestBody NaverRequest naverRequest) {
