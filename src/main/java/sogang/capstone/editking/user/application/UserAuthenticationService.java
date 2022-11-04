@@ -22,7 +22,7 @@ public class UserAuthenticationService {
 
         UserIdDTO userIdDTO;
         if (registeredUser.isPresent()) {
-            userIdDTO = new UserIdDTO(registeredUser.get().getId());
+            userIdDTO = new UserIdDTO(registeredUser.get());
         } else {
             User newUser = User.builder()
                 .name(userInfoDTO.getName())
@@ -32,7 +32,7 @@ public class UserAuthenticationService {
                 .build();
             userRepository.save(newUser);
 
-            userIdDTO = new UserIdDTO(newUser.getId());
+            userIdDTO = new UserIdDTO(newUser);
         }
 
         return userIdDTO;
