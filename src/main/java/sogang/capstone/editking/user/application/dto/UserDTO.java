@@ -13,12 +13,16 @@ import sogang.capstone.editking.user.domain.User;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserIdDTO {
+public class UserDTO {
 
-    @NotNull(message = "id may not be null")
-    private Long id;
+    @NotNull(message = "name may not be null")
+    private String name;
 
-    public UserIdDTO(User user) {
-        this.id = user.getId();
+    @NotNull(message = "plan may not be null")
+    private String plan;
+
+    public UserDTO(User user) {
+        this.name = user.getName();
+        this.plan = user.getPlan().toString();
     }
 }

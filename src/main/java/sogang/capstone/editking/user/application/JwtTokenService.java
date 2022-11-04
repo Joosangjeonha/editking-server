@@ -31,10 +31,10 @@ public class JwtTokenService {
 
         return Jwts.builder()
             .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-            .setIssuer("bankids")
+            .setIssuer("editking")
             .setIssuedAt(now)
             .setSubject(userIdDTO.getId().toString())
-            .setExpiration(new Date(now.getTime() + Duration.ofDays(180).toMillis()))
+            .setExpiration(new Date(now.getTime() + Duration.ofDays(50).toMillis()))
             .claim("id", userIdDTO.getId())
             .claim("roles", "USER")
             .signWith(SignatureAlgorithm.HS256,
@@ -86,7 +86,7 @@ public class JwtTokenService {
     }
 
     public String getToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
+        return request.getHeader("Authorization");
     }
 
 }
