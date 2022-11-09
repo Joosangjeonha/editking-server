@@ -24,7 +24,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import sogang.capstone.editking.company.domain.Company;
 import sogang.capstone.editking.global.common.AbstractTimestamp;
 import sogang.capstone.editking.global.exception.BadRequestException;
 import sogang.capstone.editking.interview.domain.Interview;
@@ -58,9 +57,8 @@ public class Form extends AbstractTimestamp {
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "companyId", nullable = false)
-    private Company company;
+    @Column(nullable = false, length = 20)
+    private String company;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "Question", joinColumns = @JoinColumn(name = "orderId"))
@@ -72,11 +70,11 @@ public class Form extends AbstractTimestamp {
 
     @Builder()
     public Form(
-        Long id,
-        String title,
-        Timestamp dueDate,
-        User user,
-        Company company
+            Long id,
+            String title,
+            Timestamp dueDate,
+            User user,
+            String company
     ) {
         if (title == null) {
             throw new BadRequestException("제목은 필수값입니다.");

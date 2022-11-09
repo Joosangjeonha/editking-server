@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sogang.capstone.editking.category.domain.Category;
-import sogang.capstone.editking.company.domain.Company;
 import sogang.capstone.editking.form.domain.Form;
 import sogang.capstone.editking.global.common.AbstractTimestamp;
 import sogang.capstone.editking.global.exception.BadRequestException;
@@ -43,16 +42,12 @@ public class Interview extends AbstractTimestamp {
     @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "companyId", nullable = false)
-    private Company company;
-
     @Builder()
     public Interview(
-        Long id,
-        String content,
-        Form form,
-        Category category
+            Long id,
+            String content,
+            Form form,
+            Category category
     ) {
         if (content == null) {
             throw new BadRequestException("내용은 필수값입니다.");

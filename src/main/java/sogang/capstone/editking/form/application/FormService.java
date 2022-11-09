@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sogang.capstone.editking.company.domain.Company;
 import sogang.capstone.editking.form.application.dto.FormDTO;
 import sogang.capstone.editking.form.application.dto.QuestionDTO;
 import sogang.capstone.editking.form.application.request.NewFormRequest;
@@ -23,7 +22,7 @@ public class FormService {
     private final FormRepository formRepository;
 
     @Transactional
-    public FormDTO createFormWithNewFormRequest(User user, Company company, NewFormRequest newFormRequest) {
+    public FormDTO createFormWithNewFormRequest(User user, NewFormRequest newFormRequest) {
         TimestampParser timestampParser = new TimestampParser();
         Timestamp dueDate = timestampParser.stringToTimestamp(newFormRequest.getDueDate());
 
@@ -31,7 +30,7 @@ public class FormService {
                 .title(newFormRequest.getTitle())
                 .dueDate(dueDate)
                 .user(user)
-                .company(company)
+                .company(newFormRequest.getCompany())
                 .build();
         formRepository.save(newForm);
 
