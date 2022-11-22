@@ -22,7 +22,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import sogang.capstone.editking.global.common.AbstractTimestamp;
 import sogang.capstone.editking.global.exception.BadRequestException;
@@ -30,7 +29,6 @@ import sogang.capstone.editking.interview.domain.Interview;
 import sogang.capstone.editking.user.domain.User;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "Form")
 @NoArgsConstructor

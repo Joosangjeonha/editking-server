@@ -16,7 +16,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +24,6 @@ import sogang.capstone.editking.global.common.AbstractTimestamp;
 import sogang.capstone.editking.global.exception.BadRequestException;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "User")
 @NoArgsConstructor
@@ -57,11 +55,11 @@ public class User extends AbstractTimestamp implements UserDetails {
 
     @Builder
     public User(
-        Long id,
-        String name,
-        String authenticationCode,
-        String provider,
-        String refreshToken
+            Long id,
+            String name,
+            String authenticationCode,
+            String provider,
+            String refreshToken
     ) {
         if (name == null) {
             throw new BadRequestException("이름은 필수값입니다.");

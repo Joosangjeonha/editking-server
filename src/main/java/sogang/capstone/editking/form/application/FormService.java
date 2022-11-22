@@ -12,6 +12,7 @@ import sogang.capstone.editking.form.application.request.NewFormRequest;
 import sogang.capstone.editking.form.domain.Form;
 import sogang.capstone.editking.form.domain.FormRepository;
 import sogang.capstone.editking.form.domain.Question;
+import sogang.capstone.editking.global.exception.ForbiddenException;
 import sogang.capstone.editking.global.util.TimestampParser;
 import sogang.capstone.editking.user.domain.User;
 
@@ -42,5 +43,19 @@ public class FormService {
                 Collectors.toList());
 
         return new FormDTO(newForm, questionDTOList);
+    }
+
+    @Transactional(readOnly = true)
+    public void validateWriterOfForm(User user, Long formId) {
+        Form form = formRepository.findById(formId);
+        if (form.getUser().getId() != user.getId()) {
+            throw new ForbiddenException("해당 폼을 작성한 유저가 아닙니다.");
+        }
+    }
+
+    @Transactional
+    public void deleteForm(Long formId) {
+        Form form = formRepository.findById(formId);
+        formRepository.delete(form);
     }
 }

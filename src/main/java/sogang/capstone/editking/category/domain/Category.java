@@ -12,12 +12,10 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import sogang.capstone.editking.global.exception.BadRequestException;
 import sogang.capstone.editking.interview.domain.Interview;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "Category")
 @NoArgsConstructor
@@ -36,8 +34,8 @@ public class Category {
 
     @Builder()
     public Category(
-        Long id,
-        String name
+            Long id,
+            String name
     ) {
         if (name == null) {
             throw new BadRequestException("카테고리명은 필수값입니다.");

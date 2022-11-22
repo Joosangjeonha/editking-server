@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +33,16 @@ public class FormController {
         FormDTO formDTO = formService.createFormWithNewFormRequest(user, newFormRequest);
 
         return CommonResponse.onSuccess(formDTO);
+    }
+
+    @Operation(summary = "자기소개서 삭제")
+    @DeleteMapping(value = "/{formId}", produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public CommonResponse<FormDTO> deleteForm(@AuthenticationPrincipal User user, @PathVariable Long formId) {
+
+        formService.validateWriterOfForm(user, formId);
+        formService.deleteForm(formId);
+
+        return CommonResponse.onSuccess(null);
     }
 }

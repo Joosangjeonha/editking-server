@@ -13,14 +13,12 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import sogang.capstone.editking.category.domain.Category;
 import sogang.capstone.editking.form.domain.Form;
 import sogang.capstone.editking.global.common.AbstractTimestamp;
 import sogang.capstone.editking.global.exception.BadRequestException;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "Interview")
 @NoArgsConstructor

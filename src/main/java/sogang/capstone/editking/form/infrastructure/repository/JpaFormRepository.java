@@ -13,7 +13,17 @@ public class JpaFormRepository implements FormRepository {
     private EntityManager entityManager;
 
     @Override
+    public Form findById(Long id) {
+        return entityManager.find(Form.class, id);
+    }
+
+    @Override
     public void save(Form form) {
         entityManager.persist(form);
+    }
+
+    @Override
+    public void delete(Form form) {
+        entityManager.remove(form);
     }
 }
