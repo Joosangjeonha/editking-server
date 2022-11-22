@@ -1,21 +1,27 @@
 package sogang.capstone.editking.form.application.dto;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
-import sogang.capstone.editking.form.domain.Question;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@Getter
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
 public class FormDetailDTO {
 
     @NotNull(message = "id may not be null")
     private Long id;
 
     @NotNull(message = "title may not be null")
-    private List<QuestionDetailDTO> questionList;
+    private List<QuestionDTO> questionList;
 
-    public FormDetailDTO(Long id, List<Question> questionList) {
+    public FormDetailDTO(Long id, List<QuestionDTO> questionDTOList) {
         this.id = id;
-        this.questionList = questionList.stream().map(QuestionDetailDTO::new).collect(Collectors.toList());
+        this.questionList = questionDTOList;
     }
 
 }

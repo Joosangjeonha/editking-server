@@ -14,7 +14,7 @@ import sogang.capstone.editking.form.domain.Question;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionDTO {
-    
+
     @NotNull(message = "idx may not be null")
     private Long idx;
 
@@ -24,9 +24,13 @@ public class QuestionDTO {
     @NotNull(message = "maximum may not be null")
     private Long maximum;
 
+    @NotNull(message = "content may not be null")
+    private String content;
+
     public QuestionDTO(Question question) {
         this.idx = question.getIdx();
         this.title = question.getTitle();
         this.maximum = question.getMaximum();
+        this.content = question.getContent();
     }
 }

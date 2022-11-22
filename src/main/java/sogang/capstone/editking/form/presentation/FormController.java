@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import sogang.capstone.editking.form.application.FormService;
 import sogang.capstone.editking.form.application.dto.FormDTO;
+import sogang.capstone.editking.form.application.dto.FormDetailDTO;
 import sogang.capstone.editking.form.application.request.NewFormRequest;
 import sogang.capstone.editking.global.config.CommonResponse;
 import sogang.capstone.editking.user.domain.User;
@@ -50,10 +51,10 @@ public class FormController {
     @Operation(summary = "자기소개서 상세 항목")
     @GetMapping(value = "/{formId}", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse<FormDTO> getFormDetail(@AuthenticationPrincipal User user, @PathVariable Long formId) {
+    public CommonResponse<FormDetailDTO> getFormDetail(@AuthenticationPrincipal User user, @PathVariable Long formId) {
 
         FormDTO formDTO = formService.validateWriterOfForm(user, formId);
 
-        return CommonResponse.onSuccess(null);
+        return CommonResponse.onSuccess(new FormDetailDTO(formDTO.getId(), formDTO.getQuestionList()));
     }
 }
