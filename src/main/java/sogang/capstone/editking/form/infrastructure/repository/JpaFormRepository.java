@@ -5,7 +5,6 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import sogang.capstone.editking.form.domain.Form;
 import sogang.capstone.editking.form.domain.FormRepository;
-import sogang.capstone.editking.form.domain.Question;
 
 @Repository
 public class JpaFormRepository implements FormRepository {
@@ -16,10 +15,5 @@ public class JpaFormRepository implements FormRepository {
     @Override
     public void save(Form form) {
         entityManager.persist(form);
-    }
-
-    @Override
-    public void save(Question question) {
-        entityManager.persist(question);
     }
 }

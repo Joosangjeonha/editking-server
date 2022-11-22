@@ -61,7 +61,7 @@ public class Form extends AbstractTimestamp {
     private String company;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "Question", joinColumns = @JoinColumn(name = "orderId"))
+    @CollectionTable(name = "Question", joinColumns = @JoinColumn(name = "formId"))
     @OrderColumn(name = "questionId")
     private List<Question> questionList;
 
@@ -74,7 +74,8 @@ public class Form extends AbstractTimestamp {
             String title,
             Timestamp dueDate,
             User user,
-            String company
+            String company,
+            List<Question> questionList
     ) {
         if (title == null) {
             throw new BadRequestException("제목은 필수값입니다.");
@@ -92,5 +93,6 @@ public class Form extends AbstractTimestamp {
         this.status = FormStatus.WRITING;
         this.user = user;
         this.company = company;
+        this.questionList = questionList;
     }
 }

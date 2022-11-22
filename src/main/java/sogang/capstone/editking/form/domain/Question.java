@@ -3,18 +3,14 @@ package sogang.capstone.editking.form.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import sogang.capstone.editking.form.application.request.QuestionRequest;
-import sogang.capstone.editking.global.common.AbstractTimestamp;
 import sogang.capstone.editking.global.exception.BadRequestException;
 
 @Getter
 @Embeddable
-public class Question extends AbstractTimestamp {
+public class Question {
 
     @Column(nullable = false)
     private Long idx;
@@ -28,15 +24,14 @@ public class Question extends AbstractTimestamp {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "formId", nullable = false)
-    private Form form;
+    private Question() {
+    }
 
-    @Builder()
     public Question(QuestionRequest questionRequest) {
         this.idx = questionRequest.getIdx();
         this.title = questionRequest.getTitle();
         this.maximum = questionRequest.getMaximum();
+        this.content = "";
     }
 
     @Builder()
@@ -45,8 +40,7 @@ public class Question extends AbstractTimestamp {
             Long idx,
             String title,
             Long maximum,
-            String content,
-            Form form
+            String content
     ) {
         if (idx == null) {
             throw new BadRequestException("항목 번호는 필수값입니다.");
@@ -61,6 +55,5 @@ public class Question extends AbstractTimestamp {
         this.title = title;
         this.maximum = maximum;
         this.content = content;
-        this.form = form;
     }
 }

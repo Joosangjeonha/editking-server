@@ -26,18 +26,17 @@ public class FormService {
         TimestampParser timestampParser = new TimestampParser();
         Timestamp dueDate = timestampParser.stringToTimestamp(newFormRequest.getDueDate());
 
+        List<Question> questionList = newFormRequest.getQuestionList().stream().map(Question::new)
+                .collect(Collectors.toList());
+
         Form newForm = Form.builder()
                 .title(newFormRequest.getTitle())
                 .dueDate(dueDate)
                 .user(user)
                 .company(newFormRequest.getCompany())
+                .questionList(questionList)
                 .build();
         formRepository.save(newForm);
-
-        List<Question> questionList = newFormRequest.getQuestionList().stream().map(Question::new).map(question -> {
-            formRepository.save(question);
-            return question;
-        }).collect(Collectors.toList());
 
         List<QuestionDTO> questionDTOList = questionList.stream().map(QuestionDTO::new).collect(
                 Collectors.toList());

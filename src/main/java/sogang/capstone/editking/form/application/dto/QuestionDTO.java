@@ -14,7 +14,7 @@ import sogang.capstone.editking.form.domain.Question;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionDTO {
-
+    
     @NotNull(message = "idx may not be null")
     private Long idx;
 

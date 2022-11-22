@@ -16,6 +16,9 @@ import sogang.capstone.editking.form.domain.Form;
 @AllArgsConstructor
 public class FormDTO {
 
+    @NotNull(message = "id may not be null")
+    private Long id;
+
     @NotNull(message = "company may not be null")
     private String company;
 
@@ -29,7 +32,8 @@ public class FormDTO {
     private List<QuestionDTO> questionList;
 
     public FormDTO(Form form, List<QuestionDTO> questionDTOList) {
-        this.company = form.getCompany().getName();
+        this.id = form.getId();
+        this.company = form.getCompany();
         this.title = form.getTitle();
         this.dueDate = form.getDueDate().toString();
         this.questionList = questionDTOList;

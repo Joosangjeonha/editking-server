@@ -9,14 +9,14 @@ import sogang.capstone.editking.global.exception.BadRequestException;
 public class TimestampParser {
 
     public Timestamp stringToTimestamp(String time) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat.setLenient(false);
 
         Date parsedDate;
         try {
             parsedDate = dateFormat.parse(time);
         } catch (ParseException e) {
-            throw new BadRequestException();
+            throw new BadRequestException("날짜 형식이 맞지 않습니다.");
         }
 
         return new Timestamp(parsedDate.getTime());
