@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sogang.capstone.editking.form.application.dto.FormDTO;
-import sogang.capstone.editking.form.application.dto.QuestionDTO;
 import sogang.capstone.editking.form.application.request.NewFormRequest;
 import sogang.capstone.editking.form.domain.Form;
 import sogang.capstone.editking.form.domain.FormRepository;
@@ -39,18 +38,16 @@ public class FormService {
                 .build();
         formRepository.save(newForm);
 
-        List<QuestionDTO> questionDTOList = questionList.stream().map(QuestionDTO::new).collect(
-                Collectors.toList());
-
-        return new FormDTO(newForm, questionDTOList);
+        return new FormDTO(newForm, questionList);
     }
 
     @Transactional(readOnly = true)
-    public void validateWriterOfForm(User user, Long formId) {
+    public FormDTO validateWriterOfForm(User user, Long formId) {
         Form form = formRepository.findById(formId);
         if (form.getUser().getId() != user.getId()) {
             throw new ForbiddenException("해당 폼을 작성한 유저가 아닙니다.");
         }
+        return new FormDTO(form, form.getQuestionList());
     }
 
     @Transactional
