@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sogang.capstone.editking.form.application.dto.FormDTO;
+import sogang.capstone.editking.form.application.request.EditFormRequest;
 import sogang.capstone.editking.form.application.request.NewFormRequest;
 import sogang.capstone.editking.form.domain.Form;
 import sogang.capstone.editking.form.domain.FormRepository;
@@ -59,6 +60,18 @@ public class FormService {
     @Transactional(readOnly = true)
     public FormDTO readFormDetail(User user, Long formId) {
         Form form = validateWriterOfForm(user, formId);
+        return new FormDTO(form);
+    }
+
+    @Transactional
+    public FormDTO updateForm(User user, Long formId, EditFormRequest editFormRequest) {
+        Form form = validateWriterOfForm(user, formId);
+        form.updatePropertyWith(editFormRequest);
+
+        List<Question> questionList = editFormRequest.getQuestionList().stream().map(Question::new)
+                .collect(Collectors.toList());
+        form.updateQuestionList(questionList);
+
         return new FormDTO(form);
     }
 

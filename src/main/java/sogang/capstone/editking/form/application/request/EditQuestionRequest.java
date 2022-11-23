@@ -13,10 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class EditQuestionRequest {
-
-    @NotNull(message = "newIdx may not benull")
-    private Long newIdx;
-
+    
     @NotNull(message = "idx may not be null")
     private Long idx;
 
@@ -25,4 +22,7 @@ public class EditQuestionRequest {
 
     @NotNull(message = "maximum may not be null")
     private Long maximum;
+
+    @NotNull(message = "content may not be null")
+    private String content;
 }
