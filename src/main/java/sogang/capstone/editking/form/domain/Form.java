@@ -132,4 +132,11 @@ public class Form extends AbstractTimestamp {
             this.questionList = questionList;
         }
     }
+
+    public void updateFormStatus(String formStatusString) {
+        FormStatus formStatus = FormStatus.valueOf(formStatusString);
+        if (!this.status.equals(formStatus)) {
+            this.status = formStatus;
+        }
+    }
 }

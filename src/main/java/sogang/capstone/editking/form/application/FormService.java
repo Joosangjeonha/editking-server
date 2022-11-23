@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sogang.capstone.editking.form.application.dto.FormDTO;
 import sogang.capstone.editking.form.application.request.EditFormRequest;
 import sogang.capstone.editking.form.application.request.NewFormRequest;
+import sogang.capstone.editking.form.application.request.UpdateQuestionRequest;
 import sogang.capstone.editking.form.domain.Form;
 import sogang.capstone.editking.form.domain.FormRepository;
 import sogang.capstone.editking.form.domain.Question;
@@ -75,4 +76,18 @@ public class FormService {
         return new FormDTO(form);
     }
 
+    @Transactional
+    public FormDTO updateQuestion(User user, Long formId, Long questionId,
+            UpdateQuestionRequest updateQuestionRequest) {
+        Form form = validateWriterOfForm(user, formId);
+
+        List<Question> questionList = form.getQuestionList();
+        questionList.stream().filter(question -> question.getIdx() == questionId).findAny()
+                .ifPresent(question -> {
+                    question.updateContent(updateQuestionRequest.getContent());
+                });
+
+        form.updateFormStatus(updateQuestionRequest.getFormStatus());
+        return new FormDTO(form);
+    }
 }

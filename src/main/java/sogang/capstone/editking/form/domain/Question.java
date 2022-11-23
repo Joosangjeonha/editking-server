@@ -65,6 +65,12 @@ public class Question implements Comparable<Question> {
         this.content = content;
     }
 
+    public void updateContent(String content) {
+        if (!this.content.equals(content)) {
+            this.content = content;
+        }
+    }
+
     @Override
     public int compareTo(Question question) {
         return this.idx.compareTo(question.getIdx());
