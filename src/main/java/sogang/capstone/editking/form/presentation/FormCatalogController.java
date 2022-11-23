@@ -27,7 +27,7 @@ public class FormCatalogController {
     public CommonResponse<List<FormCatalogDTO>> readFormCatalog(@AuthenticationPrincipal User user,
             @RequestParam String status, @RequestParam Integer limit) {
 
-        List<FormCatalogDTO> formCatalogDTOList = formCatalogService.readFormDetail(user, status, limit);
+        List<FormCatalogDTO> formCatalogDTOList = formCatalogService.readFormCatalog(user, status, limit);
 
         return CommonResponse.onSuccess(formCatalogDTOList);
     }

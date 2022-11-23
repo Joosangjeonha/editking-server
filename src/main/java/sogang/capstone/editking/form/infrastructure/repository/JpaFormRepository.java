@@ -43,7 +43,7 @@ public class JpaFormRepository implements FormRepository {
             Predicate predicate = spec.toPredicate(root, criteriaQuery, criteriaBuilder);
             criteriaQuery.where(predicate);
         }
-        criteriaQuery.orderBy(criteriaBuilder.desc(root.get("createdAt")));
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dueDate")));
         TypedQuery<Form> query = entityManager.createQuery(criteriaQuery);
         query.setFirstResult(0);
         query.setMaxResults(maxResults);
