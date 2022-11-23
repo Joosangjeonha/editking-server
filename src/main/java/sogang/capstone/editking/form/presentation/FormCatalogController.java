@@ -25,7 +25,7 @@ public class FormCatalogController {
     @GetMapping(value = "", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse<List<FormCatalogDTO>> readFormCatalog(@AuthenticationPrincipal User user,
-            @RequestParam String status, @RequestParam Long limit) {
+            @RequestParam String status, @RequestParam Integer limit) {
 
         List<FormCatalogDTO> formCatalogDTOList = formCatalogService.readFormDetail(user, status, limit);
 
