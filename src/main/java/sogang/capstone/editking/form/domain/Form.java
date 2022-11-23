@@ -2,6 +2,7 @@ package sogang.capstone.editking.form.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -23,8 +24,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import sogang.capstone.editking.form.application.request.EditFormRequest;
 import sogang.capstone.editking.global.common.AbstractTimestamp;
 import sogang.capstone.editking.global.exception.BadRequestException;
+import sogang.capstone.editking.global.util.TimestampParser;
 import sogang.capstone.editking.interview.domain.Interview;
 import sogang.capstone.editking.user.domain.User;
 
@@ -92,5 +95,48 @@ public class Form extends AbstractTimestamp {
         this.user = user;
         this.company = company;
         this.questionList = questionList;
+    }
+
+    public void updatePropertyWith(EditFormRequest editFormRequest) {
+        updateCompany(editFormRequest.getCompany());
+        updateTitle(editFormRequest.getTitle());
+        updateDueDate(editFormRequest.getDueDate());
+    }
+
+    private void updateCompany(String company) {
+        if (!this.company.equals(company)) {
+            this.company = company;
+        }
+    }
+
+    private void updateTitle(String title) {
+        if (!this.title.equals(title)) {
+            this.title = title;
+        }
+    }
+
+    private void updateDueDate(String dueDateString) {
+        TimestampParser timestampParser = new TimestampParser();
+        Timestamp dueDate = timestampParser.stringToTimestamp(dueDateString);
+
+        if (!this.dueDate.equals(dueDate)) {
+            this.dueDate = dueDate;
+        }
+    }
+
+    public void updateQuestionList(List<Question> questionList) {
+        this.questionList.sort(Comparator.naturalOrder());
+        questionList.sort(Comparator.naturalOrder());
+
+        if (!this.questionList.equals(questionList)) {
+            this.questionList = questionList;
+        }
+    }
+
+    public void updateFormStatus(String formStatusString) {
+        FormStatus formStatus = FormStatus.valueOf(formStatusString);
+        if (!this.status.equals(formStatus)) {
+            this.status = formStatus;
+        }
     }
 }

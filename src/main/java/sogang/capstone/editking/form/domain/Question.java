@@ -5,12 +5,13 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.Builder;
 import lombok.Getter;
+import sogang.capstone.editking.form.application.request.EditQuestionRequest;
 import sogang.capstone.editking.form.application.request.QuestionRequest;
 import sogang.capstone.editking.global.exception.BadRequestException;
 
 @Getter
 @Embeddable
-public class Question {
+public class Question implements Comparable<Question> {
 
     @Column(nullable = false)
     private Long idx;
@@ -34,6 +35,13 @@ public class Question {
         this.content = "";
     }
 
+    public Question(EditQuestionRequest editQuestionRequest) {
+        this.idx = editQuestionRequest.getIdx();
+        this.title = editQuestionRequest.getTitle();
+        this.maximum = editQuestionRequest.getMaximum();
+        this.content = editQuestionRequest.getContent();
+    }
+
     @Builder()
     public Question(
             Long id,
@@ -55,5 +63,16 @@ public class Question {
         this.title = title;
         this.maximum = maximum;
         this.content = content;
+    }
+
+    public void updateContent(String content) {
+        if (!this.content.equals(content)) {
+            this.content = content;
+        }
+    }
+
+    @Override
+    public int compareTo(Question question) {
+        return this.idx.compareTo(question.getIdx());
     }
 }

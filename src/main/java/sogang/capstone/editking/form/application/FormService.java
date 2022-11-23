@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sogang.capstone.editking.form.application.dto.FormDTO;
+import sogang.capstone.editking.form.application.request.EditFormRequest;
 import sogang.capstone.editking.form.application.request.NewFormRequest;
+import sogang.capstone.editking.form.application.request.UpdateQuestionRequest;
 import sogang.capstone.editking.form.domain.Form;
 import sogang.capstone.editking.form.domain.FormRepository;
 import sogang.capstone.editking.form.domain.Question;
@@ -38,22 +40,54 @@ public class FormService {
                 .build();
         formRepository.save(newForm);
 
-        return new FormDTO(newForm, questionList);
+        return new FormDTO(newForm);
     }
 
     @Transactional(readOnly = true)
-    public FormDTO validateWriterOfForm(User user, Long formId) {
+    private Form validateWriterOfForm(User user, Long formId) {
         Form form = formRepository.findById(formId);
         if (form.getUser().getId() != user.getId()) {
             throw new ForbiddenException("해당 폼을 작성한 유저가 아닙니다.");
         }
-        return new FormDTO(form, form.getQuestionList());
+        return form;
     }
 
     @Transactional
-    public void deleteForm(Long formId) {
-        Form form = formRepository.findById(formId);
+    public void deleteForm(User user, Long formId) {
+        Form form = validateWriterOfForm(user, formId);
         formRepository.delete(form);
     }
 
+    @Transactional(readOnly = true)
+    public FormDTO readFormDetail(User user, Long formId) {
+        Form form = validateWriterOfForm(user, formId);
+        return new FormDTO(form);
+    }
+
+    @Transactional
+    public FormDTO updateForm(User user, Long formId, EditFormRequest editFormRequest) {
+        Form form = validateWriterOfForm(user, formId);
+        form.updatePropertyWith(editFormRequest);
+
+        List<Question> questionList = editFormRequest.getQuestionList().stream().map(Question::new)
+                .collect(Collectors.toList());
+        form.updateQuestionList(questionList);
+
+        return new FormDTO(form);
+    }
+
+    @Transactional
+    public FormDTO updateQuestion(User user, Long formId, Long questionId,
+            UpdateQuestionRequest updateQuestionRequest) {
+        Form form = validateWriterOfForm(user, formId);
+
+        List<Question> questionList = form.getQuestionList();
+        questionList.stream().filter(question -> question.getIdx() == questionId).findAny()
+                .ifPresent(question -> {
+                    question.updateContent(updateQuestionRequest.getContent());
+                });
+
+        form.updateFormStatus(updateQuestionRequest.getFormStatus());
+        return new FormDTO(form);
+    }
 }

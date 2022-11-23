@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import sogang.capstone.editking.form.domain.Form;
-import sogang.capstone.editking.form.domain.Question;
 
 @Getter
 @ToString
@@ -33,11 +32,11 @@ public class FormDTO {
     @NotNull(message = "code may not be null")
     private List<QuestionDTO> questionList;
 
-    public FormDTO(Form form, List<Question> questionList) {
+    public FormDTO(Form form) {
         this.id = form.getId();
         this.company = form.getCompany();
         this.title = form.getTitle();
         this.dueDate = form.getDueDate().toString();
-        this.questionList = questionList.stream().map(QuestionDTO::new).collect(Collectors.toList());
+        this.questionList = form.getQuestionList().stream().map(QuestionDTO::new).collect(Collectors.toList());
     }
 }
