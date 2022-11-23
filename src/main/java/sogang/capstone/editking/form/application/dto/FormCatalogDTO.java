@@ -1,7 +1,5 @@
 package sogang.capstone.editking.form.application.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -15,7 +13,7 @@ import sogang.capstone.editking.form.domain.Form;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class FormDTO {
+public class FormCatalogDTO {
 
     @NotNull(message = "id may not be null")
     private Long id;
@@ -29,14 +27,10 @@ public class FormDTO {
     @NotNull(message = "dueDate may not be null")
     private String dueDate;
 
-    @NotNull(message = "questionList may not be null")
-    private List<QuestionDTO> questionList;
-
-    public FormDTO(Form form) {
+    public FormCatalogDTO(Form form) {
         this.id = form.getId();
         this.company = form.getCompany();
         this.title = form.getTitle();
         this.dueDate = form.getDueDate().toString();
-        this.questionList = form.getQuestionList().stream().map(QuestionDTO::new).collect(Collectors.toList());
     }
 }
