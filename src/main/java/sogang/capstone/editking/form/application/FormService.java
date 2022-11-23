@@ -38,22 +38,28 @@ public class FormService {
                 .build();
         formRepository.save(newForm);
 
-        return new FormDTO(newForm, questionList);
+        return new FormDTO(newForm);
     }
 
     @Transactional(readOnly = true)
-    public FormDTO validateWriterOfForm(User user, Long formId) {
+    private Form validateWriterOfForm(User user, Long formId) {
         Form form = formRepository.findById(formId);
         if (form.getUser().getId() != user.getId()) {
             throw new ForbiddenException("해당 폼을 작성한 유저가 아닙니다.");
         }
-        return new FormDTO(form, form.getQuestionList());
+        return form;
     }
 
     @Transactional
-    public void deleteForm(Long formId) {
-        Form form = formRepository.findById(formId);
+    public void deleteForm(User user, Long formId) {
+        Form form = validateWriterOfForm(user, formId);
         formRepository.delete(form);
+    }
+
+    @Transactional(readOnly = true)
+    public FormDTO readFormDetail(User user, Long formId) {
+        Form form = validateWriterOfForm(user, formId);
+        return new FormDTO(form);
     }
 
 }

@@ -42,8 +42,7 @@ public class FormController {
     @ResponseBody
     public CommonResponse<FormDTO> deleteForm(@AuthenticationPrincipal User user, @PathVariable Long formId) {
 
-        FormDTO formDTO = formService.validateWriterOfForm(user, formId);
-        formService.deleteForm(formId);
+        formService.deleteForm(user, formId);
 
         return CommonResponse.onSuccess(null);
     }
@@ -51,9 +50,9 @@ public class FormController {
     @Operation(summary = "자기소개서 상세 항목")
     @GetMapping(value = "/{formId}", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse<FormDetailDTO> getFormDetail(@AuthenticationPrincipal User user, @PathVariable Long formId) {
+    public CommonResponse<FormDetailDTO> readFormDetail(@AuthenticationPrincipal User user, @PathVariable Long formId) {
 
-        FormDTO formDTO = formService.validateWriterOfForm(user, formId);
+        FormDTO formDTO = formService.readFormDetail(user, formId);
 
         return CommonResponse.onSuccess(new FormDetailDTO(formDTO.getId(), formDTO.getQuestionList()));
     }
