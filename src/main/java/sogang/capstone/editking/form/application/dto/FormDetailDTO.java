@@ -16,7 +16,7 @@ public class FormDetailDTO {
     @NotNull(message = "id may not be null")
     private Long id;
 
-    @NotNull(message = "title may not be null")
+    @NotNull(message = "questionList may not be null")
     private List<QuestionDTO> questionList;
 
     public FormDetailDTO(Long id, List<QuestionDTO> questionDTOList) {
