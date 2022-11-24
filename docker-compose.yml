@@ -11,7 +11,7 @@ services:
       - 8080:8080
 
   nginx:
-    container_nmae: nginx
+    container_name: nginx
     image: ozing/editking-nginx
     ports:
       - 80:80
