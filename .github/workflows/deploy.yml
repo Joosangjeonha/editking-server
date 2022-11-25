@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Set up JDK 11
@@ -29,7 +29,19 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: make application-prod.properties
+      - name: Cache Gradle packages
+          uses: actions/cache@v2
+          with:
+            path: |
+              ~/.gradle/caches
+              ~/.gradle/wrapper
+            key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+            restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Make application-prod.properties
         run: |
           cd ./src/main/resources
           touch ./application-prod.properties
@@ -37,17 +49,18 @@ jobs:
         shell: bash
 
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-        with:
-          arguments: build
+        run: ./gradlew build -x test
 
-      - name: web docker build and push
+      - name: Test with Gradle
+        run: ./gradlew test
+
+      - name: Web Docker Build and Push
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t ${{ secrets.DOCKER_REPO }}/editking-server .
           docker push ${{ secrets.DOCKER_REPO }}/editking-server
 
-      - name: executing remote ssh commands using password
+      - name: Executing Remote ssh Commands Using Password
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
