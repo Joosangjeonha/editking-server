@@ -2,8 +2,8 @@ version: "3"
 
 services:
 
-  web:
-    container_name: web
+  editking-backend:
+    container_name: editking-backend
     image: ozing/editking-server
     expose:
       - 8080
