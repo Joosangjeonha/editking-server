@@ -5,14 +5,14 @@ services:
   editking-backend:
     container_name: editking-backend
     image: ozing/editking-server
-    expose:
-      - 8080
     ports:
       - 8080:8080
 
   nginx:
     container_name: nginx
     image: ozing/editking-nginx
+    expose:
+      - 80
     ports:
       - 80:80
     depends_on:
