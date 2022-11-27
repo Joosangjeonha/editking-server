@@ -49,7 +49,7 @@ jobs:
         shell: bash
 
       - name: Build with Gradle
-        run: ./gradlew build -x test
+        run: ./gradlew bootJar -x test
 
       - name: Test with Gradle
         run: ./gradlew test
