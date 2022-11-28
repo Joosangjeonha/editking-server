@@ -13,8 +13,8 @@ public class FormFacade {
 
     private final FormService formService;
 
-    public FormInfo.Main makeForm(FormCommand.MakeForm makeForm) {
-        return formService.makeForm(makeForm);
+    public FormInfo.Main registerForm(FormCommand.RegisterForm registerForm) {
+        return formService.registerForm(registerForm);
     }
 
     public void deleteForm(User user, Long id) {

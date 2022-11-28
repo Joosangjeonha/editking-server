@@ -13,6 +13,6 @@ import sogang.capstone.editking.domain.user.User;
 )
 public interface FormDtoMapper {
 
-    FormCommand.MakeForm of(FormDto.MakeFormRequest request, User user);
+    FormCommand.RegisterForm of(FormDto.RegisterFormRequest request, User user);
 
 }

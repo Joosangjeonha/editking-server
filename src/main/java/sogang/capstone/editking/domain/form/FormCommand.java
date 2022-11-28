@@ -14,13 +14,13 @@ public class FormCommand {
     @Getter
     @Builder
     @ToString
-    public static class MakeForm {
+    public static class RegisterForm {
 
         private final User user;
         private final String company;
         private final String title;
         private final String dueDate;
-        private final List<FormDto.MakeQuestionRequest> questionList;
+        private final List<FormDto.RegisterQuestionRequest> questionList;
 
         public Form toEntity() {
             TimestampParser timestampParser = new TimestampParser();

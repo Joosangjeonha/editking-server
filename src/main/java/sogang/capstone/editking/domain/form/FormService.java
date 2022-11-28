@@ -22,8 +22,8 @@ public class FormService {
     private final FormInfoMapper formInfoMapper;
 
     @Transactional
-    public FormInfo.Main makeForm(FormCommand.MakeForm makeForm) {
-        Form form = formStore.store(makeForm.toEntity());
+    public FormInfo.Main registerForm(FormCommand.RegisterForm registerForm) {
+        Form form = formStore.store(registerForm.toEntity());
         List<Question> questionList = form.getQuestionList();
         return formInfoMapper.of(form, questionList);
     }

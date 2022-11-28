@@ -35,11 +35,11 @@ public class FormController {
     @Operation(summary = "자기소개서 생성")
     @PostMapping(value = "", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse makeForm(@AuthenticationPrincipal User user,
-            @Valid @RequestBody FormDto.MakeFormRequest request) {
+    public CommonResponse registerForm(@AuthenticationPrincipal User user,
+            @Valid @RequestBody FormDto.RegisterFormRequest request) {
 
         var formCommand = formDtoMapper.of(request, user);
-        var response = formFacade.makeForm(formCommand);
+        var response = formFacade.registerForm(formCommand);
 
         return CommonResponse.onSuccess(response);
     }
@@ -47,7 +47,7 @@ public class FormController {
     @Operation(summary = "자기소개서 삭제")
     @DeleteMapping(value = "/{formId}", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse<FormDTO> deleteForm(@AuthenticationPrincipal User user, @PathVariable Long formId) {
+    public CommonResponse deleteForm(@AuthenticationPrincipal User user, @PathVariable Long formId) {
 
         formFacade.deleteForm(user, formId);
 
@@ -57,7 +57,7 @@ public class FormController {
     @Operation(summary = "자기소개서 상세 항목")
     @GetMapping(value = "/{formId}", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse<FormDetailDTO> readFormDetail(@AuthenticationPrincipal User user, @PathVariable Long formId) {
+    public CommonResponse readFormDetail(@AuthenticationPrincipal User user, @PathVariable Long formId) {
 
         FormDTO formDTO = formService.readFormDetail(user, formId);
 

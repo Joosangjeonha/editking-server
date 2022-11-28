@@ -12,7 +12,7 @@ public class FormDto {
     @Getter
     @Setter
     @ToString
-    public static class MakeFormRequest {
+    public static class RegisterFormRequest {
 
         @NotNull(message = "company may not be null")
         private String company;
@@ -24,13 +24,13 @@ public class FormDto {
         private String dueDate;
 
         @NotNull(message = "code may not be null")
-        private List<MakeQuestionRequest> questionList;
+        private List<RegisterQuestionRequest> questionList;
     }
 
     @Getter
     @Setter
     @ToString
-    public static class MakeQuestionRequest {
+    public static class RegisterQuestionRequest {
 
         @NotNull(message = "idx may not be null")
         private Long idx;

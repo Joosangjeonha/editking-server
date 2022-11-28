@@ -4,41 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
-import sogang.capstone.editking.domain.form.FormCommand.MakeForm;
-import sogang.capstone.editking.domain.form.FormCommand.MakeForm.MakeFormBuilder;
+import sogang.capstone.editking.domain.form.FormCommand.RegisterForm;
+import sogang.capstone.editking.domain.form.FormCommand.RegisterForm.RegisterFormBuilder;
 import sogang.capstone.editking.domain.user.User;
-import sogang.capstone.editking.presentation.form.FormDto.MakeFormRequest;
-import sogang.capstone.editking.presentation.form.FormDto.MakeQuestionRequest;
+import sogang.capstone.editking.presentation.form.FormDto.RegisterFormRequest;
+import sogang.capstone.editking.presentation.form.FormDto.RegisterQuestionRequest;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-29T00:42:26+0900",
+    date = "2022-11-29T01:42:34+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
 public class FormDtoMapperImpl implements FormDtoMapper {
 
     @Override
-    public MakeForm of(MakeFormRequest request, User user) {
+    public RegisterForm of(RegisterFormRequest request, User user) {
         if ( request == null && user == null ) {
             return null;
         }
 
-        MakeFormBuilder makeForm = MakeForm.builder();
+        RegisterFormBuilder registerForm = RegisterForm.builder();
 
         if ( request != null ) {
-            makeForm.company( request.getCompany() );
-            makeForm.title( request.getTitle() );
-            makeForm.dueDate( request.getDueDate() );
-            List<MakeQuestionRequest> list = request.getQuestionList();
+            registerForm.company( request.getCompany() );
+            registerForm.title( request.getTitle() );
+            registerForm.dueDate( request.getDueDate() );
+            List<RegisterQuestionRequest> list = request.getQuestionList();
             if ( list != null ) {
-                makeForm.questionList( new ArrayList<MakeQuestionRequest>( list ) );
+                registerForm.questionList( new ArrayList<RegisterQuestionRequest>( list ) );
             }
         }
         if ( user != null ) {
-            makeForm.user( user );
+            registerForm.user( user );
         }
 
-        return makeForm.build();
+        return registerForm.build();
     }
 }
