@@ -4,18 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
+import sogang.capstone.editking.domain.form.FormCommand.EditForm;
+import sogang.capstone.editking.domain.form.FormCommand.EditForm.EditFormBuilder;
+import sogang.capstone.editking.domain.form.FormCommand.EditQuestion;
+import sogang.capstone.editking.domain.form.FormCommand.EditQuestion.EditQuestionBuilder;
 import sogang.capstone.editking.domain.form.FormCommand.RegisterForm;
 import sogang.capstone.editking.domain.form.FormCommand.RegisterForm.RegisterFormBuilder;
 import sogang.capstone.editking.domain.form.FormInfo.Main;
-import sogang.capstone.editking.domain.form.FormInfo.Question;
 import sogang.capstone.editking.domain.user.User;
-import sogang.capstone.editking.presentation.form.FormDto.QuestionMain;
+import sogang.capstone.editking.presentation.form.FormDto.EditFormRequest;
+import sogang.capstone.editking.presentation.form.FormDto.EditQuestionRequest;
+import sogang.capstone.editking.presentation.form.FormDto.Question;
 import sogang.capstone.editking.presentation.form.FormDto.RegisterFormRequest;
 import sogang.capstone.editking.presentation.form.FormDto.RegisterQuestionRequest;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-29T01:51:39+0900",
+    date = "2022-11-29T03:04:40+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
@@ -33,7 +38,7 @@ public class FormDtoMapperImpl implements FormDtoMapper {
         main.setId( mainResult.getId() );
         main.setCompany( mainResult.getCompany() );
         main.setTitle( mainResult.getTitle() );
-        main.setQuestionList( questionListToQuestionMainList( mainResult.getQuestionList() ) );
+        main.setQuestionList( questionListToQuestionList( mainResult.getQuestionList() ) );
 
         return main;
     }
@@ -62,29 +67,79 @@ public class FormDtoMapperImpl implements FormDtoMapper {
         return registerForm.build();
     }
 
-    protected QuestionMain questionToQuestionMain(Question question) {
+    @Override
+    public EditForm of(EditFormRequest request, User user) {
+        if ( request == null && user == null ) {
+            return null;
+        }
+
+        EditFormBuilder editForm = EditForm.builder();
+
+        if ( request != null ) {
+            editForm.questionList( editQuestionRequestListToEditQuestionList( request.getQuestionList() ) );
+            editForm.company( request.getCompany() );
+            editForm.title( request.getTitle() );
+            editForm.dueDate( request.getDueDate() );
+        }
+        if ( user != null ) {
+            editForm.user( user );
+        }
+
+        return editForm.build();
+    }
+
+    @Override
+    public EditQuestion of(EditQuestionRequest request) {
+        if ( request == null ) {
+            return null;
+        }
+
+        EditQuestionBuilder editQuestion = EditQuestion.builder();
+
+        editQuestion.idx( request.getIdx() );
+        editQuestion.title( request.getTitle() );
+        editQuestion.maximum( request.getMaximum() );
+        editQuestion.content( request.getContent() );
+
+        return editQuestion.build();
+    }
+
+    protected Question questionToQuestion(sogang.capstone.editking.domain.form.FormInfo.Question question) {
         if ( question == null ) {
             return null;
         }
 
-        QuestionMain questionMain = new QuestionMain();
+        Question question1 = new Question();
 
-        questionMain.setIdx( question.getIdx() );
-        questionMain.setTitle( question.getTitle() );
-        questionMain.setMaximum( question.getMaximum() );
-        questionMain.setContent( question.getContent() );
+        question1.setIdx( question.getIdx() );
+        question1.setTitle( question.getTitle() );
+        question1.setMaximum( question.getMaximum() );
+        question1.setContent( question.getContent() );
 
-        return questionMain;
+        return question1;
     }
 
-    protected List<QuestionMain> questionListToQuestionMainList(List<Question> list) {
+    protected List<Question> questionListToQuestionList(List<sogang.capstone.editking.domain.form.FormInfo.Question> list) {
         if ( list == null ) {
             return null;
         }
 
-        List<QuestionMain> list1 = new ArrayList<QuestionMain>( list.size() );
-        for ( Question question : list ) {
-            list1.add( questionToQuestionMain( question ) );
+        List<Question> list1 = new ArrayList<Question>( list.size() );
+        for ( sogang.capstone.editking.domain.form.FormInfo.Question question : list ) {
+            list1.add( questionToQuestion( question ) );
+        }
+
+        return list1;
+    }
+
+    protected List<EditQuestion> editQuestionRequestListToEditQuestionList(List<EditQuestionRequest> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<EditQuestion> list1 = new ArrayList<EditQuestion>( list.size() );
+        for ( EditQuestionRequest editQuestionRequest : list ) {
+            list1.add( of( editQuestionRequest ) );
         }
 
         return list1;

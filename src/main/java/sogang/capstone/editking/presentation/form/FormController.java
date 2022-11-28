@@ -19,7 +19,6 @@ import sogang.capstone.editking.common.response.CommonResponse;
 import sogang.capstone.editking.domain.form.FormService;
 import sogang.capstone.editking.domain.user.User;
 import sogang.capstone.editking.presentation.form.dto.FormDTO;
-import sogang.capstone.editking.presentation.form.request.EditFormRequest;
 import sogang.capstone.editking.presentation.form.request.UpdateQuestionRequest;
 
 @RestController
@@ -67,12 +66,13 @@ public class FormController {
     @Operation(summary = "자기소개서 수정")
     @PutMapping(value = "/{formId}", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse<FormDTO> updateForm(@AuthenticationPrincipal User user, @PathVariable Long formId,
-            @Valid @RequestBody EditFormRequest editFormRequest) {
+    public CommonResponse editForm(@AuthenticationPrincipal User user, @PathVariable Long formId,
+            @Valid @RequestBody FormDto.EditFormRequest request) {
 
-        FormDTO formDTO = formService.updateForm(user, formId, editFormRequest);
+        var formCommand = formDtoMapper.of(request, user);
+        var formResult = formFacade.editForm(user, formId, formCommand);
 
-        return CommonResponse.onSuccess(formDTO);
+        return CommonResponse.onSuccess(formResult);
     }
 
     @Operation(summary = "자기소개서 임시 저장 / 제출 완료")

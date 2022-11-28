@@ -24,4 +24,8 @@ public class FormFacade {
     public FormInfo.Main retrieveForm(User user, Long id) {
         return formService.retrieveForm(user, id);
     }
+
+    public FormInfo.Main editForm(User user, Long id, FormCommand.EditForm request) {
+        return formService.editForm(user, id, request);
+    }
 }

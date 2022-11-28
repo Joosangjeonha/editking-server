@@ -29,7 +29,6 @@ import sogang.capstone.editking.common.util.TimestampParser;
 import sogang.capstone.editking.domain.AbstractTimestamp;
 import sogang.capstone.editking.domain.interview.Interview;
 import sogang.capstone.editking.domain.user.User;
-import sogang.capstone.editking.presentation.form.request.EditFormRequest;
 
 @Getter
 @Entity
@@ -97,10 +96,10 @@ public class Form extends AbstractTimestamp {
         this.questionList = questionList;
     }
 
-    public void updatePropertyWith(EditFormRequest editFormRequest) {
-        updateCompany(editFormRequest.getCompany());
-        updateTitle(editFormRequest.getTitle());
-        updateDueDate(editFormRequest.getDueDate());
+    public void updatePropertyWith(FormCommand.EditForm editForm) {
+        updateCompany(editForm.getCompany());
+        updateTitle(editForm.getTitle());
+        updateDueDate(editForm.getDueDate());
     }
 
     private void updateCompany(String company) {

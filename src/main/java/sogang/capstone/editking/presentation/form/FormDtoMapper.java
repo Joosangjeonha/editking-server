@@ -16,10 +16,16 @@ import sogang.capstone.editking.domain.user.User;
 )
 public interface FormDtoMapper {
 
-    @Mappings({
-            @Mapping(source = "dueDate", target = "dueDate", dateFormat = "yyyy-MM-dd HH:mm:ss")
-    })
+    // main
+    @Mappings({@Mapping(source = "dueDate", target = "dueDate", dateFormat = "yyyy-MM-dd HH:mm:ss")})
     FormDto.Main of(FormInfo.Main mainResult);
 
+    // register
     FormCommand.RegisterForm of(FormDto.RegisterFormRequest request, User user);
+
+    // edit
+    @Mappings({@Mapping(source = "request.questionList", target = "questionList")})
+    FormCommand.EditForm of(FormDto.EditFormRequest request, User user);
+
+    FormCommand.EditQuestion of(FormDto.EditQuestionRequest request);
 }

@@ -9,7 +9,6 @@ import sogang.capstone.editking.common.exception.ForbiddenException;
 import sogang.capstone.editking.common.response.ErrorCode;
 import sogang.capstone.editking.domain.user.User;
 import sogang.capstone.editking.presentation.form.dto.FormDTO;
-import sogang.capstone.editking.presentation.form.request.EditFormRequest;
 import sogang.capstone.editking.presentation.form.request.UpdateQuestionRequest;
 
 @Service
@@ -51,15 +50,15 @@ public class FormService {
     }
 
     @Transactional
-    public FormDTO updateForm(User user, Long formId, EditFormRequest editFormRequest) {
+    public FormInfo.Main editForm(User user, Long formId, FormCommand.EditForm editForm) {
         Form form = validateWriterOfForm(user, formId);
-        form.updatePropertyWith(editFormRequest);
+        form.updatePropertyWith(editForm);
 
-        List<Question> questionList = editFormRequest.getQuestionList().stream().map(Question::new)
+        List<Question> questionList = editForm.getQuestionList().stream().map(Question::new)
                 .collect(Collectors.toList());
         form.updateQuestionList(questionList);
 
-        return new FormDTO(form);
+        return formInfoMapper.of(form, questionList);
     }
 
     @Transactional

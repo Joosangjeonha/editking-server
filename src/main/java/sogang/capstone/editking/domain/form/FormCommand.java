@@ -42,4 +42,47 @@ public class FormCommand {
                     .build();
         }
     }
+
+    @Getter
+    @Builder
+    @ToString
+    public static class EditForm {
+
+        private final User user;
+        private final String company;
+        private final String title;
+        private final String dueDate;
+        private final List<EditQuestion> questionList;
+
+        public Form toEntity() {
+            TimestampParser timestampParser = new TimestampParser();
+
+            return Form.builder()
+                    .user(user)
+                    .company(company)
+                    .title(title)
+                    .dueDate(timestampParser.stringToTimestamp(dueDate))
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @ToString
+    public static class EditQuestion {
+
+        private Long idx;
+        private String title;
+        private Long maximum;
+        private String content;
+
+        public Question toEntity() {
+            return Question.builder()
+                    .idx(idx)
+                    .title(title)
+                    .maximum(maximum)
+                    .content(content)
+                    .build();
+        }
+    }
 }

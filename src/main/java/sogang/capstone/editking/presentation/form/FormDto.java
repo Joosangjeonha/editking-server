@@ -16,13 +16,13 @@ public class FormDto {
         private String company;
         private String title;
         private String dueDate;
-        private List<QuestionMain> questionList;
+        private List<Question> questionList;
     }
 
     @Getter
     @Setter
     @ToString
-    public static class QuestionMain {
+    public static class Question {
 
         private Long idx;
         private String title;
@@ -49,5 +49,27 @@ public class FormDto {
         private Long idx;
         private String title;
         private Long maximum;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class EditFormRequest {
+
+        private String company;
+        private String title;
+        private String dueDate;
+        private List<EditQuestionRequest> questionList;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class EditQuestionRequest {
+
+        private Long idx;
+        private String title;
+        private Long maximum;
+        private String content;
     }
 }
