@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sogang.capstone.editking.common.specification.Specs;
+import sogang.capstone.editking.common.config.Specs;
 import sogang.capstone.editking.domain.user.User;
 import sogang.capstone.editking.presentation.form.dto.FormCatalogDTO;
 

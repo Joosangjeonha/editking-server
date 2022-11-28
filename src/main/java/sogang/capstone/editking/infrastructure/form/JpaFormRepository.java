@@ -25,8 +25,9 @@ public class JpaFormRepository implements FormRepository {
     }
 
     @Override
-    public void save(Form form) {
+    public Form save(Form form) {
         entityManager.persist(form);
+        return form;
     }
 
     @Override

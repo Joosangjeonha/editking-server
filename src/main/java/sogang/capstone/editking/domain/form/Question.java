@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import sogang.capstone.editking.common.exception.BadRequestException;
 import sogang.capstone.editking.presentation.form.request.EditQuestionRequest;
-import sogang.capstone.editking.presentation.form.request.QuestionRequest;
 
 @Getter
 @Embeddable
@@ -26,13 +25,6 @@ public class Question implements Comparable<Question> {
     private String content;
 
     private Question() {
-    }
-
-    public Question(QuestionRequest questionRequest) {
-        this.idx = questionRequest.getIdx();
-        this.title = questionRequest.getTitle();
-        this.maximum = questionRequest.getMaximum();
-        this.content = "";
     }
 
     public Question(EditQuestionRequest editQuestionRequest) {

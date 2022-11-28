@@ -1,17 +1,14 @@
 package sogang.capstone.editking.domain.form;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sogang.capstone.editking.common.exception.ForbiddenException;
-import sogang.capstone.editking.common.util.TimestampParser;
 import sogang.capstone.editking.domain.user.User;
 import sogang.capstone.editking.presentation.form.dto.FormDTO;
 import sogang.capstone.editking.presentation.form.request.EditFormRequest;
-import sogang.capstone.editking.presentation.form.request.NewFormRequest;
 import sogang.capstone.editking.presentation.form.request.UpdateQuestionRequest;
 
 @Service
@@ -19,25 +16,14 @@ import sogang.capstone.editking.presentation.form.request.UpdateQuestionRequest;
 public class FormService {
 
     private final FormRepository formRepository;
+    private final FormStore formStore;
+    private final FormInfoMapper formInfoMapper;
 
     @Transactional
-    public FormDTO createFormWithNewFormRequest(User user, NewFormRequest newFormRequest) {
-        TimestampParser timestampParser = new TimestampParser();
-        Timestamp dueDate = timestampParser.stringToTimestamp(newFormRequest.getDueDate());
-
-        List<Question> questionList = newFormRequest.getQuestionList().stream().map(Question::new)
-                .collect(Collectors.toList());
-
-        Form newForm = Form.builder()
-                .title(newFormRequest.getTitle())
-                .dueDate(dueDate)
-                .user(user)
-                .company(newFormRequest.getCompany())
-                .questionList(questionList)
-                .build();
-        formRepository.save(newForm);
-
-        return new FormDTO(newForm);
+    public FormInfo.Main makeForm(FormCommand.MakeForm makeForm) {
+        Form form = formStore.store(makeForm.toEntity());
+        List<Question> questionList = form.getQuestionList();
+        return formInfoMapper.of(form, questionList);
     }
 
     @Transactional(readOnly = true)

@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import sogang.capstone.editking.application.form.FormFacade;
 import sogang.capstone.editking.common.config.CommonResponse;
 import sogang.capstone.editking.domain.form.FormService;
 import sogang.capstone.editking.domain.user.User;
 import sogang.capstone.editking.presentation.form.dto.FormDTO;
 import sogang.capstone.editking.presentation.form.dto.FormDetailDTO;
 import sogang.capstone.editking.presentation.form.request.EditFormRequest;
-import sogang.capstone.editking.presentation.form.request.NewFormRequest;
 import sogang.capstone.editking.presentation.form.request.UpdateQuestionRequest;
 
 @RestController
@@ -28,17 +28,20 @@ import sogang.capstone.editking.presentation.form.request.UpdateQuestionRequest;
 @RequiredArgsConstructor
 public class FormController {
 
+    private final FormFacade formFacade;
     private final FormService formService;
+    private final FormDtoMapper formDtoMapper;
 
     @Operation(summary = "자기소개서 생성")
     @PostMapping(value = "", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse<FormDTO> createNewForm(@AuthenticationPrincipal User user,
-            @Valid @RequestBody NewFormRequest newFormRequest) {
+    public CommonResponse makeForm(@AuthenticationPrincipal User user,
+            @Valid @RequestBody FormDto.MakeFormRequest request) {
 
-        FormDTO formDTO = formService.createFormWithNewFormRequest(user, newFormRequest);
+        var formCommand = formDtoMapper.of(request, user);
+        var response = formFacade.makeForm(formCommand);
 
-        return CommonResponse.onSuccess(formDTO);
+        return CommonResponse.onSuccess(response);
     }
 
     @Operation(summary = "자기소개서 삭제")

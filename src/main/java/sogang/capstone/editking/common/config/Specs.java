@@ -1,4 +1,4 @@
-package sogang.capstone.editking.common.specification;
+package sogang.capstone.editking.common.config;
 
 import org.springframework.data.jpa.domain.Specification;
 
