@@ -4,4 +4,6 @@ public interface FormStore {
 
     Form store(Form form);
 
+    void delete(Form form);
+
 }

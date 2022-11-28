@@ -1,4 +1,4 @@
-package sogang.capstone.editking.common.config;
+package sogang.capstone.editking.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

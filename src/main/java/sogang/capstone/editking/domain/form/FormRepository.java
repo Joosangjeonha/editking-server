@@ -1,15 +1,13 @@
 package sogang.capstone.editking.domain.form;
 
-import java.util.List;
-import org.springframework.data.jpa.domain.Specification;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface FormRepository {
+public interface FormRepository extends JpaRepository<Form, Long> {
 
-    public Form findById(Long id);
+    public Optional<Form> findById(Long id);
 
     public Form save(Form form);
 
     public void delete(Form form);
-
-    public List<Form> findAll(Specification<Form> spec, int maxResults);
 }

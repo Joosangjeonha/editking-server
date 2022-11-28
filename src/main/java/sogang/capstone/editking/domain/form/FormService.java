@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sogang.capstone.editking.common.exception.ForbiddenException;
+import sogang.capstone.editking.common.response.ErrorCode;
 import sogang.capstone.editking.domain.user.User;
 import sogang.capstone.editking.presentation.form.dto.FormDTO;
 import sogang.capstone.editking.presentation.form.request.EditFormRequest;
@@ -16,6 +17,7 @@ import sogang.capstone.editking.presentation.form.request.UpdateQuestionRequest;
 public class FormService {
 
     private final FormRepository formRepository;
+    private final FormReader formReader;
     private final FormStore formStore;
     private final FormInfoMapper formInfoMapper;
 
@@ -28,9 +30,9 @@ public class FormService {
 
     @Transactional(readOnly = true)
     private Form validateWriterOfForm(User user, Long formId) {
-        Form form = formRepository.findById(formId);
+        Form form = formReader.getForm(formId);
         if (form.getUser().getId() != user.getId()) {
-            throw new ForbiddenException("해당 폼을 작성한 유저가 아닙니다.");
+            throw new ForbiddenException(ErrorCode.NOT_WRITER_OF_FORM.getMessage());
         }
         return form;
     }
@@ -38,7 +40,7 @@ public class FormService {
     @Transactional
     public void deleteForm(User user, Long formId) {
         Form form = validateWriterOfForm(user, formId);
-        formRepository.delete(form);
+        formStore.delete(form);
     }
 
     @Transactional(readOnly = true)

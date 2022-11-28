@@ -11,31 +11,23 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import sogang.capstone.editking.domain.form.Form;
-import sogang.capstone.editking.domain.form.FormRepository;
 
 @Repository
-public class JpaFormRepository implements FormRepository {
+public class JpaFormRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Override
-    public Form findById(Long id) {
-        return entityManager.find(Form.class, id);
-    }
 
-    @Override
     public Form save(Form form) {
         entityManager.persist(form);
         return form;
     }
 
-    @Override
     public void delete(Form form) {
         entityManager.remove(form);
     }
 
-    @Override
     public List<Form> findAll(Specification<Form> spec, int maxResults) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Form> criteriaQuery = criteriaBuilder.createQuery(Form.class);

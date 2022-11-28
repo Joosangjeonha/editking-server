@@ -2,23 +2,20 @@ package sogang.capstone.editking.infrastructure.form;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import sogang.capstone.editking.common.exception.EntityNotFoundException;
 import sogang.capstone.editking.domain.form.Form;
+import sogang.capstone.editking.domain.form.FormReader;
 import sogang.capstone.editking.domain.form.FormRepository;
-import sogang.capstone.editking.domain.form.FormStore;
 
 @Component
 @RequiredArgsConstructor
-public class FormStoreImpl implements FormStore {
+public class FormReaderImpl implements FormReader {
 
     private final FormRepository formRepository;
 
     @Override
-    public Form store(Form form) {
-        return formRepository.save(form);
-    }
-
-    @Override
-    public void delete(Form form) {
-        formRepository.delete(form);
+    public Form getForm(Long id) {
+        return formRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import sogang.capstone.editking.application.form.FormFacade;
-import sogang.capstone.editking.common.config.CommonResponse;
+import sogang.capstone.editking.common.response.CommonResponse;
 import sogang.capstone.editking.domain.form.FormService;
 import sogang.capstone.editking.domain.user.User;
 import sogang.capstone.editking.presentation.form.dto.FormDTO;
@@ -49,7 +49,7 @@ public class FormController {
     @ResponseBody
     public CommonResponse<FormDTO> deleteForm(@AuthenticationPrincipal User user, @PathVariable Long formId) {
 
-        formService.deleteForm(user, formId);
+        formFacade.deleteForm(user, formId);
 
         return CommonResponse.onSuccess(null);
     }

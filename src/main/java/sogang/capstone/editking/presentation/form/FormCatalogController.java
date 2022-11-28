@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import sogang.capstone.editking.common.config.CommonResponse;
+import sogang.capstone.editking.common.response.CommonResponse;
 import sogang.capstone.editking.domain.form.FormCatalogService;
 import sogang.capstone.editking.domain.user.User;
 import sogang.capstone.editking.presentation.form.dto.FormCatalogDTO;

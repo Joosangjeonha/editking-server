@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import sogang.capstone.editking.common.config.CommonResponse;
+import sogang.capstone.editking.common.response.CommonResponse;
 import sogang.capstone.editking.domain.user.JwtTokenService;
 import sogang.capstone.editking.domain.user.KakaoService;
 import sogang.capstone.editking.domain.user.NaverService;

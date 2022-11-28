@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import sogang.capstone.editking.common.config.CommonResponse;
+import sogang.capstone.editking.common.response.CommonResponse;
 import sogang.capstone.editking.domain.user.User;
 import sogang.capstone.editking.domain.user.UserService;
 import sogang.capstone.editking.presentation.user.dto.TokenDTO;
