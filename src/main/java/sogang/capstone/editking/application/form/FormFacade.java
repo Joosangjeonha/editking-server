@@ -20,4 +20,8 @@ public class FormFacade {
     public void deleteForm(User user, Long id) {
         formService.deleteForm(user, id);
     }
+
+    public FormInfo.Main retrieveForm(User user, Long id) {
+        return formService.retrieveForm(user, id);
+    }
 }

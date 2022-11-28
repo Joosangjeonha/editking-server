@@ -2,8 +2,11 @@ package sogang.capstone.editking.presentation.form;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;
 import sogang.capstone.editking.domain.form.FormCommand;
+import sogang.capstone.editking.domain.form.FormInfo;
 import sogang.capstone.editking.domain.user.User;
 
 @Mapper(
@@ -13,6 +16,10 @@ import sogang.capstone.editking.domain.user.User;
 )
 public interface FormDtoMapper {
 
-    FormCommand.RegisterForm of(FormDto.RegisterFormRequest request, User user);
+    @Mappings({
+            @Mapping(source = "dueDate", target = "dueDate", dateFormat = "yyyy-MM-dd HH:mm:ss")
+    })
+    FormDto.Main of(FormInfo.Main mainResult);
 
+    FormCommand.RegisterForm of(FormDto.RegisterFormRequest request, User user);
 }

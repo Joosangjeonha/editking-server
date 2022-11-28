@@ -44,9 +44,10 @@ public class FormService {
     }
 
     @Transactional(readOnly = true)
-    public FormDTO readFormDetail(User user, Long formId) {
+    public FormInfo.Main retrieveForm(User user, Long formId) {
         Form form = validateWriterOfForm(user, formId);
-        return new FormDTO(form);
+        List<Question> questionList = form.getQuestionList();
+        return formInfoMapper.of(form, questionList);
     }
 
     @Transactional
