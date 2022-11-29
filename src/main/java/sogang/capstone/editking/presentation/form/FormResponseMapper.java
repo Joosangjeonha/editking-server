@@ -23,4 +23,5 @@ public interface FormResponseMapper {
     @Mappings({@Mapping(source = "dueDate", target = "dueDate", dateFormat = "yyyy-MM-dd HH:mm:ss")})
     FormResponse.CatalogForm of(FormInfo.CatalogForm formList);
 
+    FormResponse.SynonymMain of(FormInfo.SynonymMain mainResult);
 }

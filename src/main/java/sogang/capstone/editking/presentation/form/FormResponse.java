@@ -48,4 +48,14 @@ public class FormResponse {
         private String title;
         private String dueDate;
     }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class SynonymMain {
+
+        private String word;
+        private List<String> synonymList;
+
+    }
 }

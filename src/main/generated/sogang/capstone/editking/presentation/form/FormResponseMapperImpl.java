@@ -12,12 +12,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.stereotype.Component;
 import sogang.capstone.editking.domain.form.FormInfo.CatalogMain;
 import sogang.capstone.editking.domain.form.FormInfo.Main;
+import sogang.capstone.editking.domain.form.FormInfo.SynonymMain;
 import sogang.capstone.editking.presentation.form.FormResponse.CatalogForm;
 import sogang.capstone.editking.presentation.form.FormResponse.Question;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-29T19:07:13+0900",
+    date = "2022-11-30T00:26:40+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
@@ -78,6 +79,23 @@ public class FormResponseMapperImpl implements FormResponseMapper {
         catalogForm.setTitle( formList.getTitle() );
 
         return catalogForm;
+    }
+
+    @Override
+    public sogang.capstone.editking.presentation.form.FormResponse.SynonymMain of(SynonymMain mainResult) {
+        if ( mainResult == null ) {
+            return null;
+        }
+
+        sogang.capstone.editking.presentation.form.FormResponse.SynonymMain synonymMain = new sogang.capstone.editking.presentation.form.FormResponse.SynonymMain();
+
+        synonymMain.setWord( mainResult.getWord() );
+        List<String> list = mainResult.getSynonymList();
+        if ( list != null ) {
+            synonymMain.setSynonymList( new ArrayList<String>( list ) );
+        }
+
+        return synonymMain;
     }
 
     private String xmlGregorianCalendarToString( XMLGregorianCalendar xcal, String dateFormat ) {

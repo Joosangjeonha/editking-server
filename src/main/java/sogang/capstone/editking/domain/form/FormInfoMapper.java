@@ -14,4 +14,5 @@ public interface FormInfoMapper {
 
     FormInfo.Main of(Form form, List<Question> questionList);
 
+    FormInfo.SynonymMain of(String word, List<String> synonymList);
 }

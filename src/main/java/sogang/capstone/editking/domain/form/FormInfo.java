@@ -61,4 +61,14 @@ public class FormInfo {
             this.dueDate = form.getDueDate();
         }
     }
+
+    @Getter
+    @Builder
+    @ToString
+    public static class SynonymMain {
+
+        private final String word;
+        private final List<String> synonymList;
+
+    }
 }

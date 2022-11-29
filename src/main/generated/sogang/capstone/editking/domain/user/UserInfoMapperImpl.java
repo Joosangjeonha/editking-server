@@ -7,12 +7,10 @@ import sogang.capstone.editking.domain.user.UserInfo.Id.IdBuilder;
 import sogang.capstone.editking.domain.user.UserInfo.Login;
 import sogang.capstone.editking.domain.user.UserInfo.Token;
 import sogang.capstone.editking.domain.user.UserInfo.Token.TokenBuilder;
-import sogang.capstone.editking.domain.user.auth.KakaoInfo;
-import sogang.capstone.editking.domain.user.auth.NaverInfo;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-29T20:28:07+0900",
+    date = "2022-11-30T00:26:40+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
@@ -45,7 +43,7 @@ public class UserInfoMapperImpl implements UserInfoMapper {
     }
 
     @Override
-    public Login of(KakaoInfo.User kakaoUser) {
+    public Login of(sogang.capstone.editking.domain.user.auth.KakaoInfo.User kakaoUser) {
         if ( kakaoUser == null ) {
             return null;
         }
@@ -60,7 +58,7 @@ public class UserInfoMapperImpl implements UserInfoMapper {
     }
 
     @Override
-    public Login of(NaverInfo.User naverUser) {
+    public Login of(sogang.capstone.editking.domain.user.auth.NaverInfo.User naverUser) {
         if ( naverUser == null ) {
             return null;
         }

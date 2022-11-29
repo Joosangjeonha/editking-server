@@ -7,10 +7,12 @@ import org.springframework.stereotype.Component;
 import sogang.capstone.editking.domain.form.FormInfo.Main;
 import sogang.capstone.editking.domain.form.FormInfo.Main.MainBuilder;
 import sogang.capstone.editking.domain.form.FormInfo.Question.QuestionBuilder;
+import sogang.capstone.editking.domain.form.FormInfo.SynonymMain;
+import sogang.capstone.editking.domain.form.FormInfo.SynonymMain.SynonymMainBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-29T19:07:13+0900",
+    date = "2022-11-30T00:26:40+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
@@ -33,6 +35,27 @@ public class FormInfoMapperImpl implements FormInfoMapper {
         }
 
         return main.build();
+    }
+
+    @Override
+    public SynonymMain of(String word, List<String> synonymList) {
+        if ( word == null && synonymList == null ) {
+            return null;
+        }
+
+        SynonymMainBuilder synonymMain = SynonymMain.builder();
+
+        if ( word != null ) {
+            synonymMain.word( word );
+        }
+        if ( synonymList != null ) {
+            List<String> list = synonymList;
+            if ( list != null ) {
+                synonymMain.synonymList( new ArrayList<String>( list ) );
+            }
+        }
+
+        return synonymMain.build();
     }
 
     protected sogang.capstone.editking.domain.form.FormInfo.Question questionToQuestion(Question question) {
