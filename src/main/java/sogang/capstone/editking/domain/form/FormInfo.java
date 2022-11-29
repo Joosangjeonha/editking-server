@@ -17,7 +17,7 @@ public class FormInfo {
         private final Long id;
         private final String company;
         private final String title;
-        private final String dueDate;
+        private final Timestamp dueDate;
         private final List<Question> questionList;
     }
 
