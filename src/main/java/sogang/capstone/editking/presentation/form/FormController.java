@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import sogang.capstone.editking.application.form.FormFacade;
 import sogang.capstone.editking.common.response.CommonResponse;
-import sogang.capstone.editking.domain.form.FormService;
 import sogang.capstone.editking.domain.user.User;
-import sogang.capstone.editking.presentation.form.dto.FormDTO;
-import sogang.capstone.editking.presentation.form.request.UpdateQuestionRequest;
 
 @RestController
 @RequestMapping("/form")
@@ -27,7 +24,6 @@ import sogang.capstone.editking.presentation.form.request.UpdateQuestionRequest;
 public class FormController {
 
     private final FormFacade formFacade;
-    private final FormService formService;
     private final FormDtoMapper formDtoMapper;
 
     @Operation(summary = "자기소개서 생성")
@@ -36,8 +32,8 @@ public class FormController {
     public CommonResponse registerForm(@AuthenticationPrincipal User user,
             @Valid @RequestBody FormDto.RegisterFormRequest request) {
 
-        var formCommand = formDtoMapper.of(request, user);
-        var response = formFacade.registerForm(formCommand);
+        var formCommand = formDtoMapper.of(request);
+        var response = formFacade.registerForm(user, formCommand);
 
         return CommonResponse.onSuccess(response);
     }
@@ -69,8 +65,8 @@ public class FormController {
     public CommonResponse editForm(@AuthenticationPrincipal User user, @PathVariable Long formId,
             @Valid @RequestBody FormDto.EditFormRequest request) {
 
-        var formCommand = formDtoMapper.of(request, user);
-        var formResult = formFacade.editForm(user, formId, formCommand);
+        var formCommand = formDtoMapper.of(request);
+        var formResult = formFacade.editForm(formId, user, formCommand);
 
         return CommonResponse.onSuccess(formResult);
     }
@@ -78,11 +74,13 @@ public class FormController {
     @Operation(summary = "자기소개서 임시 저장 / 제출 완료")
     @PatchMapping(value = "/{formId}/question/{questionId}", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse<FormDTO> updateQuestion(@AuthenticationPrincipal User user, @PathVariable Long formId,
-            @PathVariable Long questionId, @Valid @RequestBody UpdateQuestionRequest updateQuestionRequest) {
+    public CommonResponse updateQuestionAndFormStatus(@AuthenticationPrincipal User user,
+            @PathVariable Long formId, @PathVariable Long questionId,
+            @Valid @RequestBody FormDto.UpdateQuestionRequest request) {
 
-        FormDTO formDTO = formService.updateQuestion(user, formId, questionId, updateQuestionRequest);
+        var formCommand = formDtoMapper.of(request);
+        formFacade.updateQuestionAndFormStatus(user, formId, questionId, formCommand);
 
-        return CommonResponse.onSuccess(formDTO);
+        return CommonResponse.onSuccess(null);
     }
 }

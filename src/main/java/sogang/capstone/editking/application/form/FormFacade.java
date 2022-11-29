@@ -13,8 +13,8 @@ public class FormFacade {
 
     private final FormService formService;
 
-    public FormInfo.Main registerForm(FormCommand.RegisterForm registerForm) {
-        return formService.registerForm(registerForm);
+    public FormInfo.Main registerForm(User user, FormCommand.RegisterForm registerForm) {
+        return formService.registerForm(user, registerForm);
     }
 
     public void deleteForm(User user, Long id) {
@@ -25,7 +25,12 @@ public class FormFacade {
         return formService.retrieveForm(user, id);
     }
 
-    public FormInfo.Main editForm(User user, Long id, FormCommand.EditForm request) {
-        return formService.editForm(user, id, request);
+    public FormInfo.Main editForm(Long formId, User user, FormCommand.EditForm request) {
+        return formService.editForm(formId, user, request);
+    }
+
+    public void updateQuestionAndFormStatus(User user, Long formId, Long questionId,
+            FormCommand.UpdateQuestionRequest request) {
+        formService.updateQuestionAndFormStatus(user, formId, questionId, request);
     }
 }

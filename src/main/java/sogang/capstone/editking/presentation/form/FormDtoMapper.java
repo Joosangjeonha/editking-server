@@ -7,7 +7,6 @@ import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;
 import sogang.capstone.editking.domain.form.FormCommand;
 import sogang.capstone.editking.domain.form.FormInfo;
-import sogang.capstone.editking.domain.user.User;
 
 @Mapper(
         componentModel = "spring",
@@ -21,11 +20,13 @@ public interface FormDtoMapper {
     FormDto.Main of(FormInfo.Main mainResult);
 
     // register
-    FormCommand.RegisterForm of(FormDto.RegisterFormRequest request, User user);
+    FormCommand.RegisterForm of(FormDto.RegisterFormRequest request);
 
     // edit
     @Mappings({@Mapping(source = "request.questionList", target = "questionList")})
-    FormCommand.EditForm of(FormDto.EditFormRequest request, User user);
+    FormCommand.EditForm of(FormDto.EditFormRequest request);
 
     FormCommand.EditQuestion of(FormDto.EditQuestionRequest request);
+
+    FormCommand.UpdateQuestionRequest of(FormDto.UpdateQuestionRequest request);
 }

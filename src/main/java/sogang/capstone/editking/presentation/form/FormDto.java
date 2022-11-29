@@ -59,6 +59,7 @@ public class FormDto {
         private String company;
         private String title;
         private String dueDate;
+        private String content;
         private List<EditQuestionRequest> questionList;
     }
 
@@ -71,5 +72,14 @@ public class FormDto {
         private String title;
         private Long maximum;
         private String content;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class UpdateQuestionRequest {
+
+        private String content;
+        private String formStatus;
     }
 }

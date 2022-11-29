@@ -8,21 +8,18 @@ import org.springframework.transaction.annotation.Transactional;
 import sogang.capstone.editking.common.exception.ForbiddenException;
 import sogang.capstone.editking.common.response.ErrorCode;
 import sogang.capstone.editking.domain.user.User;
-import sogang.capstone.editking.presentation.form.dto.FormDTO;
-import sogang.capstone.editking.presentation.form.request.UpdateQuestionRequest;
 
 @Service
 @RequiredArgsConstructor
 public class FormService {
 
-    private final FormRepository formRepository;
     private final FormReader formReader;
     private final FormStore formStore;
     private final FormInfoMapper formInfoMapper;
 
     @Transactional
-    public FormInfo.Main registerForm(FormCommand.RegisterForm registerForm) {
-        Form form = formStore.store(registerForm.toEntity());
+    public FormInfo.Main registerForm(User user, FormCommand.RegisterForm registerForm) {
+        Form form = formStore.store(registerForm.toEntity(user));
         List<Question> questionList = form.getQuestionList();
         return formInfoMapper.of(form, questionList);
     }
@@ -50,7 +47,7 @@ public class FormService {
     }
 
     @Transactional
-    public FormInfo.Main editForm(User user, Long formId, FormCommand.EditForm editForm) {
+    public FormInfo.Main editForm(Long formId, User user, FormCommand.EditForm editForm) {
         Form form = validateWriterOfForm(user, formId);
         form.updatePropertyWith(editForm);
 
@@ -62,17 +59,17 @@ public class FormService {
     }
 
     @Transactional
-    public FormDTO updateQuestion(User user, Long formId, Long questionId,
-            UpdateQuestionRequest updateQuestionRequest) {
+    public void updateQuestionAndFormStatus(User user, Long formId, Long questionId,
+            FormCommand.UpdateQuestionRequest request) {
         Form form = validateWriterOfForm(user, formId);
 
         List<Question> questionList = form.getQuestionList();
         questionList.stream().filter(question -> question.getIdx() == questionId).findAny()
                 .ifPresent(question -> {
-                    question.updateContent(updateQuestionRequest.getContent());
-                });
+                            question.updateContent(request.getContent());
+                        }
+                );
 
-        form.updateFormStatus(updateQuestionRequest.getFormStatus());
-        return new FormDTO(form);
+        form.updateFormStatus(request.getFormStatus());
     }
 }

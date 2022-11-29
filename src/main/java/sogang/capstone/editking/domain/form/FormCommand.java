@@ -16,13 +16,12 @@ public class FormCommand {
     @ToString
     public static class RegisterForm {
 
-        private final User user;
         private final String company;
         private final String title;
         private final String dueDate;
         private final List<FormDto.RegisterQuestionRequest> questionList;
 
-        public Form toEntity() {
+        public Form toEntity(User user) {
             TimestampParser timestampParser = new TimestampParser();
 
             var questions = questionList.stream().map(question -> Question.builder()
@@ -48,16 +47,17 @@ public class FormCommand {
     @ToString
     public static class EditForm {
 
-        private final User user;
         private final String company;
         private final String title;
         private final String dueDate;
+        private final String content;
         private final List<EditQuestion> questionList;
 
-        public Form toEntity() {
+        public Form toEntity(User user, Long id) {
             TimestampParser timestampParser = new TimestampParser();
 
             return Form.builder()
+                    .id(id)
                     .user(user)
                     .company(company)
                     .title(title)
@@ -84,5 +84,15 @@ public class FormCommand {
                     .content(content)
                     .build();
         }
+    }
+
+    @Getter
+    @Builder
+    @ToString
+    public static class UpdateQuestionRequest {
+
+        private String content;
+        private String formStatus;
+
     }
 }
