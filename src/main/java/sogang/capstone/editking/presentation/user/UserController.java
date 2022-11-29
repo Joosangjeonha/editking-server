@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import sogang.capstone.editking.application.user.UserFacade;
 import sogang.capstone.editking.common.response.CommonResponse;
 import sogang.capstone.editking.domain.user.User;
 import sogang.capstone.editking.domain.user.UserService;
-import sogang.capstone.editking.presentation.user.dto.TokenDTO;
 import sogang.capstone.editking.presentation.user.dto.UserDTO;
 
 @RestController
@@ -19,14 +19,15 @@ import sogang.capstone.editking.presentation.user.dto.UserDTO;
 @RequiredArgsConstructor
 public class UserController {
 
+    private final UserFacade userFacade;
     private final UserService userService;
 
     @Operation(summary = "로그아웃")
     @PatchMapping(value = "/logout", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse<TokenDTO> logout(@AuthenticationPrincipal User user) {
+    public CommonResponse logout(@AuthenticationPrincipal User user) {
 
-        userService.userLogout(user);
+        userFacade.logout(user);
 
         return CommonResponse.onSuccess(null);
     }
