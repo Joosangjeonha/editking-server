@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.ToString;
 import sogang.capstone.editking.common.util.TimestampParser;
 import sogang.capstone.editking.domain.user.User;
-import sogang.capstone.editking.presentation.form.FormDto;
+import sogang.capstone.editking.presentation.form.FormRequest;
 
 public class FormCommand {
 
@@ -19,7 +19,7 @@ public class FormCommand {
         private final String company;
         private final String title;
         private final String dueDate;
-        private final List<FormDto.RegisterQuestionRequest> questionList;
+        private final List<FormRequest.RegisterQuestionRequest> questionList;
 
         public Form toEntity(User user) {
             TimestampParser timestampParser = new TimestampParser();

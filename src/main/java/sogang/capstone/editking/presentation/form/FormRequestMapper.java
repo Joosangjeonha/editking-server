@@ -6,27 +6,22 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;
 import sogang.capstone.editking.domain.form.FormCommand;
-import sogang.capstone.editking.domain.form.FormInfo;
 
 @Mapper(
         componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.ERROR
 )
-public interface FormDtoMapper {
-
-    // main
-    @Mappings({@Mapping(source = "dueDate", target = "dueDate", dateFormat = "yyyy-MM-dd HH:mm:ss")})
-    FormDto.Main of(FormInfo.Main mainResult);
+public interface FormRequestMapper {
 
     // register
-    FormCommand.RegisterForm of(FormDto.RegisterFormRequest request);
+    FormCommand.RegisterForm of(FormRequest.RegisterFormRequest request);
 
     // edit
     @Mappings({@Mapping(source = "request.questionList", target = "questionList")})
-    FormCommand.EditForm of(FormDto.EditFormRequest request);
+    FormCommand.EditForm of(FormRequest.EditFormRequest request);
 
-    FormCommand.EditQuestion of(FormDto.EditQuestionRequest request);
+    FormCommand.EditQuestion of(FormRequest.EditQuestionRequest request);
 
-    FormCommand.UpdateQuestionRequest of(FormDto.UpdateQuestionRequest request);
+    FormCommand.UpdateQuestionRequest of(FormRequest.UpdateQuestionRequest request);
 }

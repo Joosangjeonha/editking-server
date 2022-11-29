@@ -24,16 +24,18 @@ import sogang.capstone.editking.domain.user.User;
 public class FormController {
 
     private final FormFacade formFacade;
-    private final FormDtoMapper formDtoMapper;
+    private final FormRequestMapper formRequestMapper;
+    private final FormResponseMapper formResponseMapper;
 
     @Operation(summary = "자기소개서 생성")
     @PostMapping(value = "", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse registerForm(@AuthenticationPrincipal User user,
-            @Valid @RequestBody FormDto.RegisterFormRequest request) {
+            @Valid @RequestBody FormRequest.RegisterFormRequest request) {
 
-        var formCommand = formDtoMapper.of(request);
-        var response = formFacade.registerForm(user, formCommand);
+        var formCommand = formRequestMapper.of(request);
+        var formResult = formFacade.registerForm(user, formCommand);
+        var response = formResponseMapper.of(formResult);
 
         return CommonResponse.onSuccess(response);
     }
@@ -54,7 +56,7 @@ public class FormController {
     public CommonResponse retrieveForm(@AuthenticationPrincipal User user, @PathVariable Long formId) {
 
         var formResult = formFacade.retrieveForm(user, formId);
-        var response = formDtoMapper.of(formResult);
+        var response = formResponseMapper.of(formResult);
 
         return CommonResponse.onSuccess(response);
     }
@@ -63,12 +65,13 @@ public class FormController {
     @PutMapping(value = "/{formId}", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse editForm(@AuthenticationPrincipal User user, @PathVariable Long formId,
-            @Valid @RequestBody FormDto.EditFormRequest request) {
+            @Valid @RequestBody FormRequest.EditFormRequest request) {
 
-        var formCommand = formDtoMapper.of(request);
+        var formCommand = formRequestMapper.of(request);
         var formResult = formFacade.editForm(formId, user, formCommand);
+        var response = formResponseMapper.of(formResult);
 
-        return CommonResponse.onSuccess(formResult);
+        return CommonResponse.onSuccess(response);
     }
 
     @Operation(summary = "자기소개서 임시 저장 / 제출 완료")
@@ -76,9 +79,9 @@ public class FormController {
     @ResponseBody
     public CommonResponse updateQuestionAndFormStatus(@AuthenticationPrincipal User user,
             @PathVariable Long formId, @PathVariable Long questionId,
-            @Valid @RequestBody FormDto.UpdateQuestionRequest request) {
+            @Valid @RequestBody FormRequest.UpdateQuestionRequest request) {
 
-        var formCommand = formDtoMapper.of(request);
+        var formCommand = formRequestMapper.of(request);
         formFacade.updateQuestionAndFormStatus(user, formId, questionId, formCommand);
 
         return CommonResponse.onSuccess(null);
