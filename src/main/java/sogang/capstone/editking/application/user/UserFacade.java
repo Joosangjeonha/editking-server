@@ -14,4 +14,5 @@ public class UserFacade {
     public void logout(User user) {
         userService.userLogout(user);
     }
+    
 }

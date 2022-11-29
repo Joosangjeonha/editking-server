@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import sogang.capstone.editking.application.user.UserFacade;
 import sogang.capstone.editking.common.response.CommonResponse;
 import sogang.capstone.editking.domain.user.User;
-import sogang.capstone.editking.domain.user.UserService;
-import sogang.capstone.editking.presentation.user.dto.UserDTO;
 
 @RestController
 @RequestMapping("/user")
@@ -20,7 +18,7 @@ import sogang.capstone.editking.presentation.user.dto.UserDTO;
 public class UserController {
 
     private final UserFacade userFacade;
-    private final UserService userService;
+    private final UserResponseMapper userResponseMapper;
 
     @Operation(summary = "로그아웃")
     @PatchMapping(value = "/logout", produces = "application/json; charset=utf-8")
@@ -35,10 +33,10 @@ public class UserController {
     @Operation(summary = "유저 정보")
     @GetMapping(value = "", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse<UserDTO> getUserAccount(@AuthenticationPrincipal User user) {
+    public CommonResponse getUserAccount(@AuthenticationPrincipal User user) {
 
-        UserDTO userDTO = new UserDTO(user);
+        var response = userResponseMapper.of(user);
 
-        return CommonResponse.onSuccess(userDTO);
+        return CommonResponse.onSuccess(response);
     }
 }
