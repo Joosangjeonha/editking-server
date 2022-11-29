@@ -1,14 +1,17 @@
-package sogang.capstone.editking.domain.user;
+package sogang.capstone.editking.domain.user.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import sogang.capstone.editking.common.exception.BadRequestException;
+import sogang.capstone.editking.domain.user.UserCommand.KakaoRequest;
+import sogang.capstone.editking.domain.user.UserInfo.Login;
+import sogang.capstone.editking.domain.user.UserInfoMapper;
 
 @Service
 @RequiredArgsConstructor
-public class KakaoService {
+public class KakaoServiceImpl implements KakaoService {
 
     private final WebClient webClient;
     private final UserInfoMapper userInfoMapper;
@@ -18,7 +21,8 @@ public class KakaoService {
     @Value("${kakao.uri}")
     private String KAKAO_URI;
 
-    public KakaoInfo.Token getKakaoAccessToken(UserCommand.KakaoRequest kakaoRequest) {
+    @Override
+    public KakaoInfo.Token getKakaoAccessToken(KakaoRequest kakaoRequest) {
         String getTokenURL =
                 "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id="
                         + KAKAO_KEY + "&redirect_uri=" + KAKAO_URI + "&code="
@@ -35,7 +39,8 @@ public class KakaoService {
         }
     }
 
-    public UserInfo.Login getKakaoUserCode(KakaoInfo.Token kakaoToken) {
+    @Override
+    public Login getKakaoUserCode(KakaoInfo.Token kakaoToken) {
         String getUserURL = "https://kapi.kakao.com/v2/user/me";
 
         WebClient.ResponseSpec responseSpec = webClient.post().uri(getUserURL)

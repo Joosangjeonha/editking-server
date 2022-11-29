@@ -1,4 +1,4 @@
-package sogang.capstone.editking.domain.user;
+package sogang.capstone.editking.domain.user.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.sql.Timestamp;

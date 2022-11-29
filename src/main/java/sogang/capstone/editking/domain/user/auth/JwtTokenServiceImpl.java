@@ -1,4 +1,4 @@
-package sogang.capstone.editking.domain.user;
+package sogang.capstone.editking.domain.user.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
@@ -16,17 +16,21 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import sogang.capstone.editking.domain.user.UserInfo.Id;
+import sogang.capstone.editking.domain.user.UserInfo.Token;
+import sogang.capstone.editking.domain.user.UserInfoMapper;
 
-@RequiredArgsConstructor
 @Service
-public class JwtTokenService {
+@RequiredArgsConstructor
+public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final CustomUserDetailServiceImpl customUserDetailsService;
     private final UserInfoMapper userInfoMapper;
     @Value("${jwt.secret}")
     private String JWT_SECRET;
 
-    public UserInfo.Token encodeJwtToken(UserInfo.Id userId) {
+    @Override
+    public Token encodeJwtToken(Id userId) {
         Date now = new Date();
 
         String token = Jwts.builder()
@@ -44,7 +48,8 @@ public class JwtTokenService {
         return userInfoMapper.of(token);
     }
 
-    public String encodeJwtRefreshToken(UserInfo.Id userId) {
+    @Override
+    public String encodeJwtRefreshToken(Id userId) {
         Date now = new Date();
         return Jwts.builder()
                 .setIssuedAt(now)
@@ -58,6 +63,7 @@ public class JwtTokenService {
                 .compact();
     }
 
+    @Override
     public Long getUserIdFromJwtToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
@@ -67,6 +73,7 @@ public class JwtTokenService {
         return Long.parseLong(claims.getSubject());
     }
 
+    @Override
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(
                 this.getUserIdFromJwtToken(token).toString());
@@ -74,6 +81,7 @@ public class JwtTokenService {
                 userDetails.getAuthorities());
     }
 
+    @Override
     public Boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser()
@@ -86,6 +94,7 @@ public class JwtTokenService {
         }
     }
 
+    @Override
     public String getToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }

@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import sogang.capstone.editking.common.exception.UnauthorizedException;
-import sogang.capstone.editking.domain.user.JwtTokenService;
+import sogang.capstone.editking.domain.user.auth.JwtTokenService;
 
 @Component
 @RequiredArgsConstructor

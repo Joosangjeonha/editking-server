@@ -5,6 +5,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;
+import sogang.capstone.editking.domain.user.auth.KakaoInfo;
+import sogang.capstone.editking.domain.user.auth.NaverInfo;
 
 @Mapper(
         componentModel = "spring",

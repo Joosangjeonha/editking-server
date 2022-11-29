@@ -2,14 +2,14 @@ package sogang.capstone.editking.application.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sogang.capstone.editking.domain.user.JwtTokenService;
-import sogang.capstone.editking.domain.user.KakaoInfo;
-import sogang.capstone.editking.domain.user.KakaoService;
-import sogang.capstone.editking.domain.user.NaverInfo;
-import sogang.capstone.editking.domain.user.NaverService;
 import sogang.capstone.editking.domain.user.UserAuthenticationService;
 import sogang.capstone.editking.domain.user.UserCommand;
 import sogang.capstone.editking.domain.user.UserInfo;
+import sogang.capstone.editking.domain.user.auth.JwtTokenService;
+import sogang.capstone.editking.domain.user.auth.KakaoInfo;
+import sogang.capstone.editking.domain.user.auth.KakaoService;
+import sogang.capstone.editking.domain.user.auth.NaverInfo;
+import sogang.capstone.editking.domain.user.auth.NaverService;
 
 @Service
 @RequiredArgsConstructor
