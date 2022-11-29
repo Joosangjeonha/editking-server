@@ -24,4 +24,6 @@ public interface FormResponseMapper {
     FormResponse.CatalogForm of(FormInfo.CatalogForm formList);
 
     FormResponse.SynonymMain of(FormInfo.SynonymMain mainResult);
+
+    FormResponse.InterviewMain of(FormInfo.InterviewMain mainResult);
 }

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import sogang.capstone.editking.domain.form.interview.Interview;
 
 public class FormInfo {
 
@@ -70,5 +71,31 @@ public class FormInfo {
         private final String word;
         private final List<String> synonymList;
 
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class InterviewMain {
+
+        private final List<InterviewQuestion> interviewList;
+
+        public InterviewMain(List<InterviewQuestion> interviewList) {
+            this.interviewList = interviewList;
+        }
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class InterviewQuestion {
+
+        private final String category;
+        private final String content;
+
+        public InterviewQuestion(Interview interview) {
+            this.category = interview.getCategory().getValue();
+            this.content = interview.getContent();
+        }
     }
 }
