@@ -60,6 +60,12 @@ jobs:
           docker build -t ${{ secrets.DOCKER_REPO }}/editking-server .
           docker push ${{ secrets.DOCKER_REPO }}/editking-server
 
+      - name: Nginx Docker Build and Push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_REPO }}/editking-nginx ./nginx
+          docker push ${{ secrets.DOCKER_REPO }}/editking-nginx
+
       - name: Executing Remote ssh Commands Using Password
         uses: appleboy/ssh-action@master
         with:
