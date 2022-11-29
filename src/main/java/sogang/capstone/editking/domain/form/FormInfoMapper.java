@@ -11,7 +11,7 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.ERROR
 )
 public interface FormInfoMapper {
-    
+
     FormInfo.Main of(Form form, List<Question> questionList);
 
 }

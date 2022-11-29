@@ -29,4 +29,23 @@ public class FormResponse {
         private Long maximum;
         private String content;
     }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class CatalogMain {
+
+        private List<CatalogForm> formList;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class CatalogForm {
+
+        private Long id;
+        private String company;
+        private String title;
+        private String dueDate;
+    }
 }
