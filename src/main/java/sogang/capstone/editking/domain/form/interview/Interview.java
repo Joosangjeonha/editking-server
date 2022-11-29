@@ -1,4 +1,4 @@
-package sogang.capstone.editking.domain.interview;
+package sogang.capstone.editking.domain.form.interview;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

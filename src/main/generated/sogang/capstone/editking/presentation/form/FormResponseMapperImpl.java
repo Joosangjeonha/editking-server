@@ -11,13 +11,17 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.stereotype.Component;
 import sogang.capstone.editking.domain.form.FormInfo.CatalogMain;
+import sogang.capstone.editking.domain.form.FormInfo.InterviewMain;
 import sogang.capstone.editking.domain.form.FormInfo.Main;
+import sogang.capstone.editking.domain.form.FormInfo.SynonymMain;
 import sogang.capstone.editking.presentation.form.FormResponse.CatalogForm;
+import sogang.capstone.editking.presentation.form.FormResponse.InterviewQuestion;
+import sogang.capstone.editking.presentation.form.FormResponse.InterviewQuestion.InterviewQuestionBuilder;
 import sogang.capstone.editking.presentation.form.FormResponse.Question;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-29T19:07:13+0900",
+    date = "2022-11-30T01:19:53+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
@@ -78,6 +82,36 @@ public class FormResponseMapperImpl implements FormResponseMapper {
         catalogForm.setTitle( formList.getTitle() );
 
         return catalogForm;
+    }
+
+    @Override
+    public sogang.capstone.editking.presentation.form.FormResponse.SynonymMain of(SynonymMain mainResult) {
+        if ( mainResult == null ) {
+            return null;
+        }
+
+        sogang.capstone.editking.presentation.form.FormResponse.SynonymMain synonymMain = new sogang.capstone.editking.presentation.form.FormResponse.SynonymMain();
+
+        synonymMain.setWord( mainResult.getWord() );
+        List<String> list = mainResult.getSynonymList();
+        if ( list != null ) {
+            synonymMain.setSynonymList( new ArrayList<String>( list ) );
+        }
+
+        return synonymMain;
+    }
+
+    @Override
+    public sogang.capstone.editking.presentation.form.FormResponse.InterviewMain of(InterviewMain mainResult) {
+        if ( mainResult == null ) {
+            return null;
+        }
+
+        sogang.capstone.editking.presentation.form.FormResponse.InterviewMain interviewMain = new sogang.capstone.editking.presentation.form.FormResponse.InterviewMain();
+
+        interviewMain.setInterviewList( interviewQuestionListToInterviewQuestionList( mainResult.getInterviewList() ) );
+
+        return interviewMain;
     }
 
     private String xmlGregorianCalendarToString( XMLGregorianCalendar xcal, String dateFormat ) {
@@ -141,6 +175,32 @@ public class FormResponseMapperImpl implements FormResponseMapper {
         List<CatalogForm> list1 = new ArrayList<CatalogForm>( list.size() );
         for ( sogang.capstone.editking.domain.form.FormInfo.CatalogForm catalogForm : list ) {
             list1.add( of( catalogForm ) );
+        }
+
+        return list1;
+    }
+
+    protected InterviewQuestion interviewQuestionToInterviewQuestion(sogang.capstone.editking.domain.form.FormInfo.InterviewQuestion interviewQuestion) {
+        if ( interviewQuestion == null ) {
+            return null;
+        }
+
+        InterviewQuestionBuilder interviewQuestion1 = InterviewQuestion.builder();
+
+        interviewQuestion1.category( interviewQuestion.getCategory() );
+        interviewQuestion1.content( interviewQuestion.getContent() );
+
+        return interviewQuestion1.build();
+    }
+
+    protected List<InterviewQuestion> interviewQuestionListToInterviewQuestionList(List<sogang.capstone.editking.domain.form.FormInfo.InterviewQuestion> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<InterviewQuestion> list1 = new ArrayList<InterviewQuestion>( list.size() );
+        for ( sogang.capstone.editking.domain.form.FormInfo.InterviewQuestion interviewQuestion : list ) {
+            list1.add( interviewQuestionToInterviewQuestion( interviewQuestion ) );
         }
 
         return list1;
