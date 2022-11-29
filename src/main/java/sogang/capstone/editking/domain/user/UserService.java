@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
-
     @Transactional
     public void userLogout(User user) {
         user.setNewRefreshToken("");

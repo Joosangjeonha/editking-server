@@ -4,41 +4,40 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sogang.capstone.editking.presentation.user.dto.UserIdDTO;
-import sogang.capstone.editking.presentation.user.dto.oauth.UserInfoDTO;
 
 @Service
 @RequiredArgsConstructor
 public class UserAuthenticationService {
 
-    private final UserRepository userRepository;
+    private final UserReader userReader;
+    private final UserStore userStore;
+    private final UserInfoMapper userInfoMapper;
 
     @Transactional
-    public UserIdDTO loginWithUserInformation(UserInfoDTO userInfoDTO) {
-        Optional<User> registeredUser = userRepository.findByAuthenticationCode(
-                userInfoDTO.getAuthenticationCode());
+    public UserInfo.Id loginWithUserInformation(UserInfo.Login userInfo, String provider) {
+        Optional<User> registeredUser = userReader.findByAuthenticationCode(userInfo.getAuthenticationCode());
 
-        UserIdDTO userIdDTO;
+        UserInfo.Id userId;
         if (registeredUser.isPresent()) {
-            userIdDTO = new UserIdDTO(registeredUser.get());
+            userId = userInfoMapper.of(registeredUser.get());
         } else {
             User newUser = User.builder()
-                    .name(userInfoDTO.getName())
-                    .authenticationCode(userInfoDTO.getAuthenticationCode())
-                    .provider(userInfoDTO.getProvider())
+                    .name(userInfo.getName())
+                    .authenticationCode(userInfo.getAuthenticationCode())
+                    .provider(provider)
                     .refreshToken("")
                     .build();
-            userRepository.save(newUser);
+            userStore.store(newUser);
 
-            userIdDTO = new UserIdDTO(newUser);
+            userId = userInfoMapper.of(newUser);
         }
 
-        return userIdDTO;
+        return userId;
     }
 
     @Transactional(readOnly = true)
-    public void updateRefreshToken(UserIdDTO userIdDTO, String refreshToken) {
-        User user = userRepository.findById(userIdDTO.getId());
+    public void updateRefreshToken(UserInfo.Id userId, String refreshToken) {
+        User user = userReader.getUser(userId.getId());
         user.setNewRefreshToken(refreshToken);
     }
 }

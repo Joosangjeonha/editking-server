@@ -23,12 +23,6 @@ public class UserInfoDTO {
     @NotNull(message = "provider may not be null")
     private String provider;
 
-    public UserInfoDTO(KakaoUserDTO kakaoUserDTO, String provider) {
-        this.authenticationCode = kakaoUserDTO.getAuthenticationCode();
-        this.name = kakaoUserDTO.getKakaoAccount().getProfile().getNickname();
-        this.provider = provider;
-    }
-
     public UserInfoDTO(NaverUserDTO naverUserDTO, String provider) {
         this.authenticationCode = naverUserDTO.getResponse().getAuthenticationCode();
         this.name = naverUserDTO.getResponse().getNickname();

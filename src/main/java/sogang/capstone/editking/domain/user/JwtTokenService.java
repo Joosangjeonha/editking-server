@@ -16,40 +16,41 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import sogang.capstone.editking.presentation.user.dto.UserIdDTO;
 
 @RequiredArgsConstructor
 @Service
 public class JwtTokenService {
 
     private final CustomUserDetailServiceImpl customUserDetailsService;
+    private final UserInfoMapper userInfoMapper;
     @Value("${jwt.secret}")
     private String JWT_SECRET;
 
-    public String encodeJwtToken(UserIdDTO userIdDTO) {
+    public UserInfo.Token encodeJwtToken(UserInfo.Id userId) {
         Date now = new Date();
 
-        return Jwts.builder()
+        String token = Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer("editking")
                 .setIssuedAt(now)
-                .setSubject(userIdDTO.getId().toString())
+                .setSubject(userId.getId().toString())
                 .setExpiration(new Date(now.getTime() + Duration.ofDays(50).toMillis()))
-                .claim("id", userIdDTO.getId())
+                .claim("id", userId.getId())
                 .claim("roles", "USER")
                 .signWith(SignatureAlgorithm.HS256,
                         Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
                                 StandardCharsets.UTF_8)))
                 .compact();
+        return userInfoMapper.of(token);
     }
 
-    public String encodeJwtRefreshToken(UserIdDTO userIdDTO) {
+    public String encodeJwtRefreshToken(UserInfo.Id userId) {
         Date now = new Date();
         return Jwts.builder()
                 .setIssuedAt(now)
-                .setSubject(userIdDTO.getId().toString())
+                .setSubject(userId.getId().toString())
                 .setExpiration(new Date(now.getTime() + Duration.ofMinutes(20160).toMillis()))
-                .claim("id", userIdDTO.getId())
+                .claim("id", userId.getId())
                 .claim("roles", "USER")
                 .signWith(SignatureAlgorithm.HS256,
                         Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
