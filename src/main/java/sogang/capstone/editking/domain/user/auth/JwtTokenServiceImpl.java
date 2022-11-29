@@ -1,4 +1,4 @@
-package sogang.capstone.editking.domain.user;
+package sogang.capstone.editking.domain.user.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
@@ -16,40 +16,46 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import sogang.capstone.editking.presentation.user.dto.UserIdDTO;
+import sogang.capstone.editking.domain.user.UserInfo.Id;
+import sogang.capstone.editking.domain.user.UserInfo.Token;
+import sogang.capstone.editking.domain.user.UserInfoMapper;
 
-@RequiredArgsConstructor
 @Service
-public class JwtTokenService {
+@RequiredArgsConstructor
+public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final CustomUserDetailServiceImpl customUserDetailsService;
+    private final UserInfoMapper userInfoMapper;
     @Value("${jwt.secret}")
     private String JWT_SECRET;
 
-    public String encodeJwtToken(UserIdDTO userIdDTO) {
+    @Override
+    public Token encodeJwtToken(Id userId) {
         Date now = new Date();
 
-        return Jwts.builder()
+        String token = Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer("editking")
                 .setIssuedAt(now)
-                .setSubject(userIdDTO.getId().toString())
+                .setSubject(userId.getId().toString())
                 .setExpiration(new Date(now.getTime() + Duration.ofDays(50).toMillis()))
-                .claim("id", userIdDTO.getId())
+                .claim("id", userId.getId())
                 .claim("roles", "USER")
                 .signWith(SignatureAlgorithm.HS256,
                         Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
                                 StandardCharsets.UTF_8)))
                 .compact();
+        return userInfoMapper.of(token);
     }
 
-    public String encodeJwtRefreshToken(UserIdDTO userIdDTO) {
+    @Override
+    public String encodeJwtRefreshToken(Id userId) {
         Date now = new Date();
         return Jwts.builder()
                 .setIssuedAt(now)
-                .setSubject(userIdDTO.getId().toString())
+                .setSubject(userId.getId().toString())
                 .setExpiration(new Date(now.getTime() + Duration.ofMinutes(20160).toMillis()))
-                .claim("id", userIdDTO.getId())
+                .claim("id", userId.getId())
                 .claim("roles", "USER")
                 .signWith(SignatureAlgorithm.HS256,
                         Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
@@ -57,6 +63,7 @@ public class JwtTokenService {
                 .compact();
     }
 
+    @Override
     public Long getUserIdFromJwtToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
@@ -66,6 +73,7 @@ public class JwtTokenService {
         return Long.parseLong(claims.getSubject());
     }
 
+    @Override
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(
                 this.getUserIdFromJwtToken(token).toString());
@@ -73,6 +81,7 @@ public class JwtTokenService {
                 userDetails.getAuthorities());
     }
 
+    @Override
     public Boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser()
@@ -85,6 +94,7 @@ public class JwtTokenService {
         }
     }
 
+    @Override
     public String getToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }

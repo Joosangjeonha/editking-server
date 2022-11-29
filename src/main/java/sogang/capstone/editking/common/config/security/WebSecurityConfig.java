@@ -15,7 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import sogang.capstone.editking.domain.user.JwtTokenService;
+import sogang.capstone.editking.domain.user.auth.JwtTokenService;
 
 @RequiredArgsConstructor
 @EnableWebSecurity

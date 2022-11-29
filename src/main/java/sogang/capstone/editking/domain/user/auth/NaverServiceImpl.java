@@ -1,19 +1,20 @@
-package sogang.capstone.editking.domain.user;
+package sogang.capstone.editking.domain.user.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import sogang.capstone.editking.common.exception.BadRequestException;
-import sogang.capstone.editking.presentation.user.dto.oauth.NaverTokenDTO;
-import sogang.capstone.editking.presentation.user.dto.oauth.NaverUserDTO;
-import sogang.capstone.editking.presentation.user.request.NaverRequest;
+import sogang.capstone.editking.domain.user.UserCommand.NaverRequest;
+import sogang.capstone.editking.domain.user.UserInfo.Login;
+import sogang.capstone.editking.domain.user.UserInfoMapper;
 
 @Service
 @RequiredArgsConstructor
-public class NaverService {
+public class NaverServiceImpl implements NaverService {
 
     private final WebClient webClient;
+    private final UserInfoMapper userInfoMapper;
 
     @Value("${naver.key}")
     private String NAVER_KEY;
@@ -22,7 +23,8 @@ public class NaverService {
     @Value("${naver.uri}")
     private String NAVER_URI;
 
-    public NaverTokenDTO getNaverAccessToken(NaverRequest naverRequest) {
+    @Override
+    public NaverInfo.Token getNaverAccessToken(NaverRequest naverRequest) {
 
         String getTokenURL =
                 "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id="
@@ -32,7 +34,7 @@ public class NaverService {
         WebClient.ResponseSpec responseSpec = webClient.post().uri(getTokenURL).retrieve();
 
         try {
-            NaverTokenDTO naverTokenDTO = responseSpec.bodyToMono(NaverTokenDTO.class).block();
+            NaverInfo.Token naverTokenDTO = responseSpec.bodyToMono(NaverInfo.Token.class).block();
             return naverTokenDTO;
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,18 +42,20 @@ public class NaverService {
         }
     }
 
-    public NaverUserDTO getNaverUserCode(NaverTokenDTO naverTokenDTO) {
+    @Override
+    public Login getNaverUserCode(NaverInfo.Token naverToken) {
         String getUserURL = "https://openapi.naver.com/v1/nid/me";
 
         WebClient.ResponseSpec responseSpec = webClient.post().uri(getUserURL)
-                .header("Authorization", "Bearer " + naverTokenDTO.getAccessToken()).retrieve();
+                .header("Authorization", "Bearer " + naverToken.getAccessToken()).retrieve();
 
         try {
-            NaverUserDTO naverUserDTO = responseSpec.bodyToMono(NaverUserDTO.class).block();
-            return naverUserDTO;
+            NaverInfo.User naverUser = responseSpec.bodyToMono(NaverInfo.User.class).block();
+            return userInfoMapper.of(naverUser);
         } catch (Exception e) {
             e.printStackTrace();
             throw new BadRequestException("naver user code error");
         }
     }
+
 }
