@@ -14,7 +14,7 @@ public class FormCatalogService {
     private final FormReader formReader;
 
     @Transactional(readOnly = true)
-    public FormInfo.CatalogMain retrieveFormCatalog(User user, String status, Long limit) {
+    public FormInfo.CatalogMain retrieveFormCatalog(User user, String status, Integer limit) {
         List<Form> formList = formReader.getFormCatalog(user, FormStatus.valueOf(status), limit);
         List<FormInfo.CatalogForm> catalogFormList = formList.stream().map(FormInfo.CatalogForm::new)
                 .collect(Collectors.toList());

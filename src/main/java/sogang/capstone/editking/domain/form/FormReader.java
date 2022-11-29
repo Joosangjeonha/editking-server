@@ -7,5 +7,5 @@ public interface FormReader {
 
     Form getForm(Long id);
 
-    List<Form> getFormCatalog(User user, FormStatus status, Long limit);
+    List<Form> getFormCatalog(User user, FormStatus status, Integer limit);
 }

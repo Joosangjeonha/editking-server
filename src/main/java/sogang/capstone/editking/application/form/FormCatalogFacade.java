@@ -12,7 +12,7 @@ public class FormCatalogFacade {
 
     private final FormCatalogService formCatalogService;
 
-    public FormInfo.CatalogMain retrieveFormCatalog(User user, String status, Long limit) {
+    public FormInfo.CatalogMain retrieveFormCatalog(User user, String status, Integer limit) {
         return formCatalogService.retrieveFormCatalog(user, status, limit);
     }
 }

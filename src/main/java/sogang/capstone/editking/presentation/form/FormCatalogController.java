@@ -24,7 +24,7 @@ public class FormCatalogController {
     @GetMapping(value = "", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse retrieveFormCatalog(@AuthenticationPrincipal User user,
-            @RequestParam String status, @RequestParam Long limit) {
+            @RequestParam String status, @RequestParam Integer limit) {
 
         var formResult = formCatalogFacade.retrieveFormCatalog(user, status, limit);
         var response = formResponseMapper.of(formResult);
