@@ -10,7 +10,7 @@ import sogang.capstone.editking.domain.user.UserInfo.Token.TokenBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-29T20:13:10+0900",
+    date = "2022-11-29T20:28:07+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
@@ -53,6 +53,20 @@ public class UserInfoMapperImpl implements UserInfoMapper {
         login.setAuthenticationCode( kakaoUser.getAuthenticationCode() );
 
         login.setName( kakaoUser.getKakaoAccount().getProfile().getNickname() );
+
+        return login;
+    }
+
+    @Override
+    public Login of(sogang.capstone.editking.domain.user.NaverInfo.User naverUser) {
+        if ( naverUser == null ) {
+            return null;
+        }
+
+        Login login = new Login();
+
+        login.setAuthenticationCode( naverUser.getResponse().getAuthenticationCode() );
+        login.setName( naverUser.getResponse().getNickname() );
 
         return login;
     }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import sogang.capstone.editking.domain.user.JwtTokenService;
 import sogang.capstone.editking.domain.user.KakaoInfo;
 import sogang.capstone.editking.domain.user.KakaoService;
+import sogang.capstone.editking.domain.user.NaverInfo;
 import sogang.capstone.editking.domain.user.NaverService;
 import sogang.capstone.editking.domain.user.UserAuthenticationService;
 import sogang.capstone.editking.domain.user.UserCommand;
@@ -24,6 +25,21 @@ public class UserAuthenticationFacade {
         UserInfo.Login kakaoUser = kakaoService.getKakaoUserCode(kakaoToken);
 
         UserInfo.Id userId = userAuthenticationService.loginWithUserInformation(kakaoUser, "kakao");
+
+        String refreshToken = jwtTokenService.encodeJwtRefreshToken(userId);
+        UserInfo.Token accessToken = jwtTokenService.encodeJwtToken(userId);
+
+        userAuthenticationService.updateRefreshToken(userId, refreshToken);
+
+        return accessToken;
+    }
+
+    public UserInfo.Token loginWithNaver(UserCommand.NaverRequest request) {
+
+        NaverInfo.Token naverToken = naverService.getNaverAccessToken(request);
+        UserInfo.Login naverUser = naverService.getNaverUserCode(naverToken);
+
+        UserInfo.Id userId = userAuthenticationService.loginWithUserInformation(naverUser, "naver");
 
         String refreshToken = jwtTokenService.encodeJwtRefreshToken(userId);
         UserInfo.Token accessToken = jwtTokenService.encodeJwtToken(userId);

@@ -13,4 +13,13 @@ public class UserRequest {
 
         private String code;
     }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class NaverRequest {
+
+        private String code;
+        private String state;
+    }
 }

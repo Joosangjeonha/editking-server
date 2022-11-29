@@ -15,4 +15,13 @@ public class UserCommand {
 
     }
 
+    @Getter
+    @Builder
+    @ToString
+    public static class NaverRequest {
+
+        private final String code;
+        private final String state;
+
+    }
 }

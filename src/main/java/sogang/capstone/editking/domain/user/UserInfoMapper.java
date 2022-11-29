@@ -22,4 +22,10 @@ public interface UserInfoMapper {
             @Mapping(expression = "java(kakaoUser.getKakaoAccount().getProfile().getNickname())", target = "name"),
     })
     UserInfo.Login of(KakaoInfo.User kakaoUser);
+
+    @Mappings({
+            @Mapping(expression = "java(naverUser.getResponse().getAuthenticationCode())", target = "authenticationCode"),
+            @Mapping(expression = "java(naverUser.getResponse().getNickname())", target = "name"),
+    })
+    UserInfo.Login of(NaverInfo.User naverUser);
 }

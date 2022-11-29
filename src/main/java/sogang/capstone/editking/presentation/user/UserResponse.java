@@ -15,5 +15,12 @@ public class UserResponse {
         private String plan;
     }
 
+    @Getter
+    @Setter
+    @ToString
+    public static class Token {
+
+        private String accessToken;
+    }
 
 }

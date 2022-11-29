@@ -15,4 +15,7 @@ public interface UserRequestMapper {
     // kakao
     UserCommand.KakaoRequest of(UserRequest.KakaoRequest request);
 
+    // naver
+    UserCommand.NaverRequest of(UserRequest.NaverRequest request);
+
 }
