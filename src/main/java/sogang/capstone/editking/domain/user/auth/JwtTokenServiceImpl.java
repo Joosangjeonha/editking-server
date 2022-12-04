@@ -30,7 +30,12 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     private String JWT_SECRET;
 
     @Override
-    public Token encodeJwtToken(Id userId) {
+    public Token encodeToken(String accessToken, String refreshToken) {
+        return userInfoMapper.of(accessToken, refreshToken);
+    }
+
+    @Override
+    public String encodeJwtToken(Id userId) {
         Date now = new Date();
 
         String token = Jwts.builder()
@@ -45,7 +50,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                         Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
                                 StandardCharsets.UTF_8)))
                 .compact();
-        return userInfoMapper.of(token);
+        return token;
     }
 
     @Override

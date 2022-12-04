@@ -17,7 +17,7 @@ public interface UserInfoMapper {
 
     UserInfo.Id of(User user);
 
-    UserInfo.Token of(String accessToken);
+    UserInfo.Token of(String accessToken, String refreshToken);
 
     @Mappings({
             @Mapping(source = "kakaoUser.authenticationCode", target = "authenticationCode"),

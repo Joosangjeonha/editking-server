@@ -10,7 +10,7 @@ import sogang.capstone.editking.domain.user.UserInfo.Token.TokenBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-04T17:14:20+0900",
+    date = "2022-12-05T02:45:09+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
@@ -30,14 +30,19 @@ public class UserInfoMapperImpl implements UserInfoMapper {
     }
 
     @Override
-    public Token of(String accessToken) {
-        if ( accessToken == null ) {
+    public Token of(String accessToken, String refreshToken) {
+        if ( accessToken == null && refreshToken == null ) {
             return null;
         }
 
         TokenBuilder token = Token.builder();
 
-        token.accessToken( accessToken );
+        if ( accessToken != null ) {
+            token.accessToken( accessToken );
+        }
+        if ( refreshToken != null ) {
+            token.refreshToken( refreshToken );
+        }
 
         return token.build();
     }

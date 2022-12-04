@@ -8,8 +8,9 @@ import sogang.capstone.editking.domain.user.UserInfo.Token;
 
 public interface JwtTokenService {
 
+    public Token encodeToken(String accessToken, String refreshToken);
 
-    public Token encodeJwtToken(Id userId);
+    public String encodeJwtToken(Id userId);
 
     public String encodeJwtRefreshToken(Id userId);
 
