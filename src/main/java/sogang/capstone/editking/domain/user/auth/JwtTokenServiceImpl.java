@@ -82,7 +82,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     @Override
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(
-                this.getUserIdFromJwtToken(token).toString());
+                this.getUserIdFromJwtToken(token).getId().toString());
         return new UsernamePasswordAuthenticationToken(userDetails, "",
                 userDetails.getAuthorities());
     }

@@ -1,6 +1,8 @@
 package sogang.capstone.editking.presentation.user;
 
 import io.swagger.v3.oas.annotations.Operation;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +25,17 @@ public class UserController {
     @Operation(summary = "로그아웃")
     @PatchMapping(value = "/logout", produces = "application/json; charset=utf-8")
     @ResponseBody
-    public CommonResponse logout(@AuthenticationPrincipal User user) {
+    public CommonResponse logout(@AuthenticationPrincipal User user,
+            HttpServletResponse httpServletResponse) {
 
         userFacade.logout(user);
+
+        Cookie cookie = new Cookie("refreshToken", null);
+        cookie.setMaxAge(14 * 24 * 60 * 60);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        httpServletResponse.addCookie(cookie);
 
         return CommonResponse.onSuccess(null);
     }

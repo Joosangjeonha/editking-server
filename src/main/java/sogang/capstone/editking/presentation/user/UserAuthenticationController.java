@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,7 +65,7 @@ public class UserAuthenticationController {
     }
 
     @Operation(summary = "토큰 리프레시")
-    @PostMapping(value = "/refresh", produces = "application/json; charset=utf-8")
+    @PatchMapping(value = "/refresh", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse refreshTokens(@Valid @CookieValue("refreshToken") String refreshToken,
             HttpServletResponse httpServletResponse) {
