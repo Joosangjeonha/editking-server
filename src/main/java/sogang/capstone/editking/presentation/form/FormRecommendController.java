@@ -2,6 +2,7 @@ package sogang.capstone.editking.presentation.form;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ public class FormRecommendController {
     private final FormResponseMapper formResponseMapper;
 
     @Operation(summary = "단어 분석")
+    @Cacheable(value = "synonym", key = "#word", cacheManager = "cacheManager", unless = "#word==''")
     @GetMapping(value = "/question", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse recommendSynonym(@AuthenticationPrincipal User user, @RequestParam String word) {
