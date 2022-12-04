@@ -28,6 +28,14 @@ public class RedisConfig {
         return new LettuceConnectionFactory(host, port);
     }
 
+    @Bean
+    public RedisConfiguration defaultRedisConfig() {
+        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
+        configuration.setHostName(host);
+        configuration.setPort(port);
+        return configuration;
+    }
+
     @SuppressWarnings("deprecation")
     @Bean
     public CacheManager cacheManager() {
