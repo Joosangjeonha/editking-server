@@ -42,4 +42,10 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
         User user = userReader.getUser(userId.getId());
         user.setNewRefreshToken(refreshToken);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void validateLatestDevice(String refreshToken) {
+        userReader.findByRefreshToken(refreshToken);
+    }
 }

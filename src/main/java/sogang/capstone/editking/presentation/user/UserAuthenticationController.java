@@ -5,6 +5,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +51,25 @@ public class UserAuthenticationController {
 
         var userCommand = userRequestMapper.of(naverRequest);
         var userResult = userAuthenticationFacade.loginWithNaver(userCommand);
+        var response = userResponseMapper.of(userResult);
+
+        Cookie cookie = new Cookie("refreshToken", userResult.getRefreshToken());
+        cookie.setMaxAge(14 * 24 * 60 * 60);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        httpServletResponse.addCookie(cookie);
+
+        return CommonResponse.onSuccess(response);
+    }
+
+    @Operation(summary = "토큰 리프레시")
+    @PostMapping(value = "/refresh", produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public CommonResponse refreshTokens(@Valid @CookieValue("refreshToken") String refreshToken,
+            HttpServletResponse httpServletResponse) {
+
+        var userResult = userAuthenticationFacade.refreshTokens(refreshToken);
         var response = userResponseMapper.of(userResult);
 
         Cookie cookie = new Cookie("refreshToken", userResult.getRefreshToken());

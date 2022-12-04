@@ -10,7 +10,7 @@ import sogang.capstone.editking.domain.user.UserInfo.Token.TokenBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-05T02:45:09+0900",
+    date = "2022-12-05T03:42:52+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
@@ -27,6 +27,19 @@ public class UserInfoMapperImpl implements UserInfoMapper {
         id.id( user.getId() );
 
         return id.build();
+    }
+
+    @Override
+    public Id of(Long id) {
+        if ( id == null ) {
+            return null;
+        }
+
+        IdBuilder id1 = Id.builder();
+
+        id1.id( id );
+
+        return id1.build();
     }
 
     @Override

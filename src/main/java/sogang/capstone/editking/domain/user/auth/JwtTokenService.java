@@ -14,7 +14,7 @@ public interface JwtTokenService {
 
     public String encodeJwtRefreshToken(Id userId);
 
-    public Long getUserIdFromJwtToken(String token);
+    public Id getUserIdFromJwtToken(String token);
 
     public Authentication getAuthentication(String token);
 

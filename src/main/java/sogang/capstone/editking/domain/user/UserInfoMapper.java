@@ -17,6 +17,8 @@ public interface UserInfoMapper {
 
     UserInfo.Id of(User user);
 
+    UserInfo.Id of(Long id);
+
     UserInfo.Token of(String accessToken, String refreshToken);
 
     @Mappings({
@@ -30,4 +32,5 @@ public interface UserInfoMapper {
             @Mapping(expression = "java(naverUser.getResponse().getNickname())", target = "name"),
     })
     UserInfo.Login of(NaverInfo.User naverUser);
+
 }

@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import sogang.capstone.editking.domain.user.UserInfo;
 import sogang.capstone.editking.domain.user.UserInfo.Id;
 import sogang.capstone.editking.domain.user.UserInfo.Token;
 import sogang.capstone.editking.domain.user.UserInfoMapper;
@@ -69,13 +70,13 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
-    public Long getUserIdFromJwtToken(String token) {
+    public UserInfo.Id getUserIdFromJwtToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
                         StandardCharsets.UTF_8)))
                 .parseClaimsJws(token)
                 .getBody();
-        return Long.parseLong(claims.getSubject());
+        return userInfoMapper.of(Long.parseLong(claims.getSubject()));
     }
 
     @Override

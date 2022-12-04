@@ -50,4 +50,18 @@ public class UserAuthenticationFacade {
 
         return token;
     }
+
+    public UserInfo.Token refreshTokens(String refreshToken) {
+
+        userAuthenticationService.validateLatestDevice(refreshToken);
+        UserInfo.Id userId = jwtTokenService.getUserIdFromJwtToken(refreshToken);
+
+        String newAccessToken = jwtTokenService.encodeJwtToken(userId);
+        String newRefreshToken = jwtTokenService.encodeJwtRefreshToken(userId);
+        userAuthenticationService.updateRefreshToken(userId, newRefreshToken);
+
+        UserInfo.Token token = jwtTokenService.encodeToken(newAccessToken, newRefreshToken);
+
+        return token;
+    }
 }
