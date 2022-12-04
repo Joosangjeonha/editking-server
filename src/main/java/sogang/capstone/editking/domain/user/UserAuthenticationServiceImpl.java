@@ -37,7 +37,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void updateRefreshToken(UserInfo.Id userId, String refreshToken) {
         User user = userReader.getUser(userId.getId());
         user.setNewRefreshToken(refreshToken);
