@@ -8,10 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private final UserReader userReader;
+
     @Override
     @Transactional
     public void userLogout(User user) {
-        user.setNewRefreshToken("");
+        User logoutUser = userReader.getUser(user.getId());
+        logoutUser.setNewRefreshToken("");
     }
 
 

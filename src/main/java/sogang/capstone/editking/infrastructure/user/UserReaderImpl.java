@@ -28,4 +28,10 @@ public class UserReaderImpl implements UserReader {
     public Optional<User> findByAuthenticationCode(String authenticationCode) {
         return userRepository.findByAuthenticationCode(authenticationCode);
     }
+
+    @Override
+    public User findByRefreshToken(String refreshToken) {
+        return userRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(EntityNotFoundException::new);
+    }
 }
