@@ -5,28 +5,32 @@ import org.springframework.stereotype.Component;
 import sogang.capstone.editking.domain.user.UserInfo.Id;
 import sogang.capstone.editking.domain.user.UserInfo.Id.IdBuilder;
 import sogang.capstone.editking.domain.user.UserInfo.Login;
+import sogang.capstone.editking.domain.user.UserInfo.Main;
 import sogang.capstone.editking.domain.user.UserInfo.Token;
 import sogang.capstone.editking.domain.user.UserInfo.Token.TokenBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-05T03:42:52+0900",
+    date = "2022-12-05T11:19:33+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
 public class UserInfoMapperImpl implements UserInfoMapper {
 
     @Override
-    public Id of(User user) {
+    public Main of(User user) {
         if ( user == null ) {
             return null;
         }
 
-        IdBuilder id = Id.builder();
+        Main main = new Main();
 
-        id.id( user.getId() );
+        main.setName( user.getName() );
+        if ( user.getPlan() != null ) {
+            main.setPlan( user.getPlan().name() );
+        }
 
-        return id.build();
+        return main;
     }
 
     @Override

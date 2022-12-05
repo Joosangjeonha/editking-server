@@ -3,10 +3,12 @@ package sogang.capstone.editking.presentation.user;
 import io.swagger.v3.oas.annotations.Operation;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,7 +57,7 @@ public class UserController {
     @PatchMapping(value = "", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse editUserAccount(@AuthenticationPrincipal User user,
-            UserRequest.EditAccountRequest request) {
+            @Valid @RequestBody UserRequest.EditAccountRequest request) {
 
         var userCommand = userRequestMapper.of(request);
         var userResult = userFacade.editUserAccount(user, userCommand);
