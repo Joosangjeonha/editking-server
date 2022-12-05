@@ -20,6 +20,7 @@ import sogang.capstone.editking.domain.user.User;
 public class UserController {
 
     private final UserFacade userFacade;
+    private final UserRequestMapper userRequestMapper;
     private final UserResponseMapper userResponseMapper;
 
     @Operation(summary = "로그아웃")
@@ -46,6 +47,19 @@ public class UserController {
     public CommonResponse getUserAccount(@AuthenticationPrincipal User user) {
 
         var response = userResponseMapper.of(user);
+
+        return CommonResponse.onSuccess(response);
+    }
+
+    @Operation(summary = "유저 정보 수정")
+    @PatchMapping(value = "", produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public CommonResponse editUserAccount(@AuthenticationPrincipal User user,
+            UserRequest.EditAccountRequest request) {
+
+        var userCommand = userRequestMapper.of(request);
+        var userResult = userFacade.editUserAccount(user, userCommand);
+        var response = userResponseMapper.of(userResult);
 
         return CommonResponse.onSuccess(response);
     }

@@ -15,6 +15,8 @@ public interface UserResponseMapper {
 
     UserResponse.Main of(User user);
 
+    UserResponse.Main of(UserInfo.Main mainResult);
+
     UserResponse.Token of(UserInfo.Token token);
 
 }
