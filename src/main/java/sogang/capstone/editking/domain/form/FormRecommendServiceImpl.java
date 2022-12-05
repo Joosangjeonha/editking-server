@@ -18,10 +18,9 @@ public class FormRecommendServiceImpl implements FormRecommendService {
     public FormInfo.SynonymMain recommendSynonym(String word) {
         // TODO: Mock Data
         List<String> synonymList = new ArrayList<>();
-        synonymList.add("지루하다");
-        synonymList.add("따분하다");
-        synonymList.add("싫증나다");
-        synonymList.add("식상하다");
+        synonymList.add("반영하여");
+        synonymList.add("응용하여");
+        synonymList.add("도입하여");
 
         return formInfoMapper.of(word, synonymList);
     }

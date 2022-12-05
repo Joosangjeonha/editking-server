@@ -20,7 +20,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
 
         UserInfo.Id userId;
         if (registeredUser.isPresent()) {
-            userId = userInfoMapper.of(registeredUser.get());
+            userId = userInfoMapper.of(registeredUser.get().getId());
         } else {
             User newUser = User.builder()
                     .name(userInfo.getName())
@@ -30,7 +30,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
                     .build();
             userStore.store(newUser);
 
-            userId = userInfoMapper.of(newUser);
+            userId = userInfoMapper.of(newUser.getId());
         }
 
         return userId;

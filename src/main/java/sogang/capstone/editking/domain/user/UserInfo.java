@@ -10,6 +10,15 @@ public class UserInfo {
     @Getter
     @Setter
     @ToString
+    public static class Main {
+
+        private String name;
+        private String plan;
+    }
+
+    @Getter
+    @Setter
+    @ToString
     public static class Login {
 
         private String authenticationCode;

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserReader userReader;
+    private final UserInfoMapper userInfoMapper;
 
     @Override
     @Transactional
@@ -17,5 +18,11 @@ public class UserServiceImpl implements UserService {
         logoutUser.setNewRefreshToken("");
     }
 
-
+    @Override
+    @Transactional
+    public UserInfo.Main editUserAccount(User user, UserCommand.EditAccountRequest request) {
+        User editUser = userReader.getUser(user.getId());
+        editUser.editAccount(request);
+        return userInfoMapper.of(editUser);
+    }
 }

@@ -15,7 +15,7 @@ import sogang.capstone.editking.domain.user.auth.NaverInfo;
 )
 public interface UserInfoMapper {
 
-    UserInfo.Id of(User user);
+    UserInfo.Main of(User user);
 
     UserInfo.Id of(Long id);
 

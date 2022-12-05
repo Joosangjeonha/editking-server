@@ -22,4 +22,13 @@ public class UserRequest {
         private String code;
         private String state;
     }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class EditAccountRequest {
+
+        private String name;
+        private String plan;
+    }
 }
