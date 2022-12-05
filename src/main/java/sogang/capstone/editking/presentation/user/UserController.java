@@ -31,7 +31,7 @@ public class UserController {
         userFacade.logout(user);
 
         Cookie cookie = new Cookie("refreshToken", null);
-        cookie.setMaxAge(14 * 24 * 60 * 60);
+        cookie.setMaxAge(0);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
