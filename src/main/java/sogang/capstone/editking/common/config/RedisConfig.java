@@ -55,18 +55,18 @@ public class RedisConfig {
                 .disableCachingNullValues()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
                         new GenericJackson2JsonRedisSerializer()))
-                .entryTtl(Duration.ofSeconds(DEFAULT_HOURS));
+                .entryTtl(Duration.ofHours(DEFAULT_HOURS));
 
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 
         cacheConfigurations.put(SYNONYM_KEY,
                 RedisCacheConfiguration.defaultCacheConfig()
                         .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
-                                new GenericJackson2JsonRedisSerializer())).entryTtl(Duration.ofSeconds(SYNONYM_HOURS)));
+                                new GenericJackson2JsonRedisSerializer())).entryTtl(Duration.ofHours(SYNONYM_HOURS)));
         cacheConfigurations.put(USER_KEY,
                 RedisCacheConfiguration.defaultCacheConfig()
                         .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
-                                new GenericJackson2JsonRedisSerializer())).entryTtl(Duration.ofSeconds(USER_HOURS)));
+                                new GenericJackson2JsonRedisSerializer())).entryTtl(Duration.ofHours(USER_HOURS)));
 
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
                 .cacheDefaults(configuration)

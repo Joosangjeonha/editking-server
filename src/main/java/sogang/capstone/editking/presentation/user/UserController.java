@@ -1,10 +1,13 @@
 package sogang.capstone.editking.presentation.user;
 
+import static sogang.capstone.editking.common.config.RedisConfig.USER_KEY;
+
 import io.swagger.v3.oas.annotations.Operation;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -44,6 +47,7 @@ public class UserController {
     }
 
     @Operation(summary = "유저 정보")
+    @Cacheable(value = USER_KEY, key = "#user.getId()", cacheManager = "cacheManager")
     @GetMapping(value = "", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse getUserAccount(@AuthenticationPrincipal User user) {
