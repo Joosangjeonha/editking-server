@@ -1,6 +1,8 @@
 package sogang.capstone.editking.common.config;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -25,6 +27,14 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private int port;
 
+    private final Long DEFAULT_HOURS = 1L;
+
+    public final static String SYNONYM_KEY = "Synonym";
+    private final Long SYNONYM_HOURS = 24L;
+
+    public final static String USER_KEY = "User";
+    private final Long USER_HOURS = 6L;
+
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory(host, port);
@@ -40,14 +50,26 @@ public class RedisConfig {
 
     @SuppressWarnings("deprecation")
     @Bean
-    public CacheManager cacheManager() {
-        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(
-            redisConnectionFactory());
+    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
-                new GenericJackson2JsonRedisSerializer()))
-            .entryTtl(Duration.ofDays(1L));
-        builder.cacheDefaults(configuration);
-        return builder.build();
+                .disableCachingNullValues()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
+                        new GenericJackson2JsonRedisSerializer()))
+                .entryTtl(Duration.ofSeconds(DEFAULT_HOURS));
+
+        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
+
+        cacheConfigurations.put(SYNONYM_KEY,
+                RedisCacheConfiguration.defaultCacheConfig()
+                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
+                                new GenericJackson2JsonRedisSerializer())).entryTtl(Duration.ofSeconds(SYNONYM_HOURS)));
+        cacheConfigurations.put(USER_KEY,
+                RedisCacheConfiguration.defaultCacheConfig()
+                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
+                                new GenericJackson2JsonRedisSerializer())).entryTtl(Duration.ofSeconds(USER_HOURS)));
+
+        return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
+                .cacheDefaults(configuration)
+                .withInitialCacheConfigurations(cacheConfigurations).build();
     }
 }

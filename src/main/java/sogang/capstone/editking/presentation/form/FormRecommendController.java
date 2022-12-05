@@ -1,5 +1,7 @@
 package sogang.capstone.editking.presentation.form;
 
+import static sogang.capstone.editking.common.config.RedisConfig.SYNONYM_KEY;
+
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,7 +25,7 @@ public class FormRecommendController {
     private final FormResponseMapper formResponseMapper;
 
     @Operation(summary = "단어 분석")
-    @Cacheable(value = "synonym", key = "#word", cacheManager = "cacheManager", unless = "#word==''")
+    @Cacheable(value = SYNONYM_KEY, key = "#word", cacheManager = "cacheManager", unless = "#word==''")
     @GetMapping(value = "/question", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse recommendSynonym(@AuthenticationPrincipal User user, @RequestParam String word) {
