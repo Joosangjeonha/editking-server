@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,6 +59,7 @@ public class UserController {
     }
 
     @Operation(summary = "유저 정보 수정")
+    @CachePut(value = USER_KEY, key = "#user.getId()", cacheManager = "cacheManager")
     @PatchMapping(value = "", produces = "application/json; charset=utf-8")
     @ResponseBody
     public CommonResponse editUserAccount(@AuthenticationPrincipal User user,
