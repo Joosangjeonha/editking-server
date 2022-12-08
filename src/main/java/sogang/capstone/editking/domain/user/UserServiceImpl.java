@@ -8,21 +8,21 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserReader userReader;
     private final UserInfoMapper userInfoMapper;
+    private final UserStore userStore;
 
     @Override
     @Transactional
     public void userLogout(User user) {
-        User logoutUser = userReader.getUser(user.getId());
-        logoutUser.setNewRefreshToken("");
+        user.setNewRefreshToken("");
+        userStore.store(user);
     }
 
     @Override
     @Transactional
     public UserInfo.Main editUserAccount(User user, UserCommand.EditAccountRequest request) {
-        User editUser = userReader.getUser(user.getId());
-        editUser.editAccount(request);
-        return userInfoMapper.of(editUser);
+        user.editAccount(request);
+        userStore.store(user);
+        return userInfoMapper.of(user);
     }
 }

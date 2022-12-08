@@ -11,7 +11,7 @@ import sogang.capstone.editking.domain.user.UserInfo.Token.TokenBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-05T11:19:33+0900",
+    date = "2022-12-09T03:50:14+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
