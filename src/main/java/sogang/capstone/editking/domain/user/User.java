@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +27,7 @@ import sogang.capstone.editking.domain.form.Form;
 @Getter
 @Entity
 @Table(name = "User")
+@DynamicUpdate
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class User extends AbstractTimestamp implements UserDetails {

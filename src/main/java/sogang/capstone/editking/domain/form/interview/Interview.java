@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import sogang.capstone.editking.common.exception.BadRequestException;
 import sogang.capstone.editking.domain.AbstractTimestamp;
 import sogang.capstone.editking.domain.form.Form;
@@ -22,6 +23,7 @@ import sogang.capstone.editking.domain.form.Form;
 @Getter
 @Entity
 @Table(name = "Interview")
+@DynamicUpdate
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Interview extends AbstractTimestamp {
