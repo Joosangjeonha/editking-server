@@ -26,7 +26,7 @@ public class FormRecommendServiceImpl implements FormRecommendService {
     }
 
     @Override
-    public FormInfo.InterviewMain recommendInterview(Form form) {
+    public FormInfo.InterviewMain analyzeInterview(Form form) {
         // TODO: Mock Data
         List<Interview> recommendedList = new ArrayList<>();
         Interview interview1 = Interview.builder()
@@ -43,6 +43,15 @@ public class FormRecommendServiceImpl implements FormRecommendService {
         recommendedList.add(interview2);
 
         List<FormInfo.InterviewQuestion> interviewList = recommendedList.stream().map(FormInfo.InterviewQuestion::new)
+                .collect(Collectors.toList());
+        return new FormInfo.InterviewMain(interviewList);
+    }
+
+    @Override
+    public FormInfo.InterviewMain recommendInterview(Long id) {
+        Form form = formReader.getForm(id);
+        List<FormInfo.InterviewQuestion> interviewList = form.getInterviewList().stream()
+                .map(FormInfo.InterviewQuestion::new)
                 .collect(Collectors.toList());
         return new FormInfo.InterviewMain(interviewList);
     }

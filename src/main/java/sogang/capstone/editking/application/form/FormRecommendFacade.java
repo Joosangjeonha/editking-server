@@ -14,4 +14,8 @@ public class FormRecommendFacade {
     public FormInfo.SynonymMain recommendSynonym(String word) {
         return formRecommendService.recommendSynonym(word);
     }
+
+    public FormInfo.InterviewMain recommendInterview(Long formId) {
+        return formRecommendService.recommendInterview(formId);
+    }
 }

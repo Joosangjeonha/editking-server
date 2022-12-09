@@ -13,6 +13,6 @@ public class SubmittedEventHandler implements ApplicationListener<SubmittedEvent
 
     @Override
     public void onApplicationEvent(SubmittedEvent event) {
-        formRecommendService.recommendInterview(event.getForm());
+        formRecommendService.analyzeInterview(event.getForm());
     }
 }
