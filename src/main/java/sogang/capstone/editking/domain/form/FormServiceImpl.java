@@ -3,10 +3,12 @@ package sogang.capstone.editking.domain.form;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sogang.capstone.editking.common.exception.ForbiddenException;
 import sogang.capstone.editking.common.response.ErrorCode;
+import sogang.capstone.editking.domain.form.event.SubmittedEvent;
 import sogang.capstone.editking.domain.user.User;
 
 @Service
@@ -16,6 +18,7 @@ public class FormServiceImpl implements FormService {
     private final FormReader formReader;
     private final FormStore formStore;
     private final FormInfoMapper formInfoMapper;
+    private final ApplicationEventPublisher publisher;
 
     @Override
     @Transactional
@@ -70,11 +73,11 @@ public class FormServiceImpl implements FormService {
 
         List<Question> questionList = form.getQuestionList();
         questionList.stream().filter(question -> question.getIdx() == questionId).findAny()
-                .ifPresent(question -> {
-                            question.updateContent(request.getContent());
-                        }
-                );
+                .ifPresent(question -> question.updateContent(request.getContent()));
 
         form.updateFormStatus(request.getFormStatus());
+        if (form.getStatus() == FormStatus.SUBMITTED) {
+            publisher.publishEvent(new SubmittedEvent(this, questionList));
+        }
     }
 }
