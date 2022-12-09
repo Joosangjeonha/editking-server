@@ -77,7 +77,7 @@ public class FormServiceImpl implements FormService {
 
         form.updateFormStatus(request.getFormStatus());
         if (form.getStatus() == FormStatus.SUBMITTED) {
-            publisher.publishEvent(new SubmittedEvent(this, questionList));
+            publisher.publishEvent(new SubmittedEvent(this, form));
         }
     }
 }

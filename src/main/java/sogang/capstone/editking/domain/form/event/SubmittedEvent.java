@@ -1,18 +1,17 @@
 package sogang.capstone.editking.domain.form.event;
 
-import java.util.List;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
-import sogang.capstone.editking.domain.form.Question;
+import sogang.capstone.editking.domain.form.Form;
 
 @Getter
 public class SubmittedEvent extends ApplicationEvent {
 
-    private List<Question> questionList;
+    private Form form;
 
-    public SubmittedEvent(Object object, List<Question> questionList) {
+    public SubmittedEvent(Object object, Form form) {
         super(object);
-        this.questionList = questionList;
+        this.form = form;
     }
 
 }

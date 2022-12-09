@@ -26,8 +26,7 @@ public class FormRecommendServiceImpl implements FormRecommendService {
     }
 
     @Override
-    public FormInfo.InterviewMain recommendInterview(Long id) {
-        Form form = formReader.getForm(id);
+    public FormInfo.InterviewMain recommendInterview(Form form) {
         // TODO: Mock Data
         List<Interview> recommendedList = new ArrayList<>();
         Interview interview1 = Interview.builder()

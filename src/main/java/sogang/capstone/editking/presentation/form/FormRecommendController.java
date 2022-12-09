@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,17 +30,6 @@ public class FormRecommendController {
     public CommonResponse recommendSynonym(@AuthenticationPrincipal User user, @RequestParam String word) {
 
         var formResult = formRecommendFacade.recommendSynonym(word);
-        var response = formResponseMapper.of(formResult);
-
-        return CommonResponse.onSuccess(response);
-    }
-
-    @Operation(summary = "면접 질문 분석")
-    @GetMapping(value = "/{formId}/interview", produces = "application/json; charset=utf-8")
-    @ResponseBody
-    public CommonResponse recommendInterview(@AuthenticationPrincipal User user, @PathVariable Long formId) {
-
-        var formResult = formRecommendFacade.recommendInterview(formId);
         var response = formResponseMapper.of(formResult);
 
         return CommonResponse.onSuccess(response);
