@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import sogang.capstone.editking.domain.form.interview.Interview;
+import sogang.capstone.editking.domain.interview.Interview;
 
 public class FormInfo {
 
@@ -98,4 +98,5 @@ public class FormInfo {
             this.content = interview.getContent();
         }
     }
+    
 }

@@ -28,7 +28,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import sogang.capstone.editking.common.exception.BadRequestException;
 import sogang.capstone.editking.common.util.TimestampParser;
 import sogang.capstone.editking.domain.AbstractTimestamp;
-import sogang.capstone.editking.domain.form.interview.Interview;
+import sogang.capstone.editking.domain.interview.Interview;
 import sogang.capstone.editking.domain.user.User;
 
 @Getter
