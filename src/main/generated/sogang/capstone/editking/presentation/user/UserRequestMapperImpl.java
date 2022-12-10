@@ -11,7 +11,7 @@ import sogang.capstone.editking.presentation.user.UserRequest.KakaoRequest;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-09T03:50:13+0900",
+    date = "2022-12-10T16:54:13+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
