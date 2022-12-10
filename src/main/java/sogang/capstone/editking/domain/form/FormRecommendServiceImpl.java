@@ -2,7 +2,6 @@ package sogang.capstone.editking.domain.form;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +21,5 @@ public class FormRecommendServiceImpl implements FormRecommendService {
         synonymList.add("도입하여");
 
         return formInfoMapper.of(word, synonymList);
-    }
-
-    @Override
-    public FormInfo.InterviewMain recommendInterview(Long id) {
-        Form form = formReader.getForm(id);
-        List<FormInfo.InterviewQuestion> interviewList = form.getInterviewList().stream()
-                .map(FormInfo.InterviewQuestion::new)
-                .collect(Collectors.toList());
-        return new FormInfo.InterviewMain(interviewList);
     }
 }

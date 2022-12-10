@@ -15,6 +15,6 @@ public class SubmittedEventHandler implements ApplicationListener<SubmittedEvent
     @Async
     @Override
     public void onApplicationEvent(SubmittedEvent event) {
-        interviewService.analyzeInterview(event.getForm());
+        interviewService.analyzeInterview(event);
     }
 }

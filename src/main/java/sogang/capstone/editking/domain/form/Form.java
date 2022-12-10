@@ -16,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import lombok.Builder;
@@ -28,7 +27,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import sogang.capstone.editking.common.exception.BadRequestException;
 import sogang.capstone.editking.common.util.TimestampParser;
 import sogang.capstone.editking.domain.AbstractTimestamp;
-import sogang.capstone.editking.domain.interview.Interview;
 import sogang.capstone.editking.domain.user.User;
 
 @Getter
@@ -66,9 +64,6 @@ public class Form extends AbstractTimestamp {
     @CollectionTable(name = "Question", joinColumns = @JoinColumn(name = "formId"))
     @OrderColumn(name = "questionId")
     private List<Question> questionList;
-
-    @OneToMany(mappedBy = "form")
-    private List<Interview> interviewList;
 
     @Builder()
     public Form(

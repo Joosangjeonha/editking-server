@@ -26,4 +26,30 @@ public class InterviewInfo {
         private String content;
 
     }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class InterviewMain {
+
+        private final List<InterviewQuestion> interviewList;
+
+        public InterviewMain(List<InterviewQuestion> interviewList) {
+            this.interviewList = interviewList;
+        }
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class InterviewQuestion {
+
+        private final String category;
+        private final String content;
+
+        public InterviewQuestion(Interview interview) {
+            this.category = interview.getCategory().getValue();
+            this.content = interview.getContent();
+        }
+    }
 }

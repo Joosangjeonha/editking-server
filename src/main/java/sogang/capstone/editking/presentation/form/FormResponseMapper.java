@@ -25,5 +25,4 @@ public interface FormResponseMapper {
 
     FormResponse.SynonymMain of(FormInfo.SynonymMain mainResult);
 
-    FormResponse.InterviewMain of(FormInfo.InterviewMain mainResult);
 }
