@@ -2,9 +2,9 @@ package sogang.capstone.editking.domain.interview;
 
 public enum InterviewCategory {
 
+    CHARACTER("인성"),
     COOPERATION("협업"),
-    JOB("직무"),
-    CLUB("동아리");
+    JOB("직무");
 
     private final String value;
 
