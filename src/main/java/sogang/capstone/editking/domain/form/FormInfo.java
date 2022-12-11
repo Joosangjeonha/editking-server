@@ -80,4 +80,13 @@ public class FormInfo {
 
     }
 
+    @Getter
+    @Builder
+    @ToString
+    public static class AnalyzedSynonym {
+
+        private List<String> result;
+
+    }
+
 }
