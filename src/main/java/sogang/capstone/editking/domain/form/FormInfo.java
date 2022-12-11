@@ -81,7 +81,7 @@ public class FormInfo {
     }
 
     @Getter
-    @Builder
+    @Setter
     @ToString
     public static class AnalyzedSynonym {
 
