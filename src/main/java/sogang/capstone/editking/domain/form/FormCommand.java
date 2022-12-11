@@ -95,4 +95,13 @@ public class FormCommand {
         private String formStatus;
 
     }
+
+    @Getter
+    @Builder
+    @ToString
+    public static class AnalyzeSynonymRequest {
+
+        private String keyword;
+
+    }
 }
