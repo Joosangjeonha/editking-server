@@ -28,7 +28,7 @@ public class InterviewServiceImpl implements InterviewService {
                 event.getQuestionList());
 
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-        factory.setReadTimeout(100000);
+        factory.setReadTimeout(600000);
         factory.setConnectTimeout(3000);
         HttpClient httpClient = HttpClientBuilder.create()
                 .setMaxConnTotal(100)
