@@ -22,7 +22,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import sogang.capstone.editking.common.exception.BadRequestException;
 import sogang.capstone.editking.common.util.TimestampParser;
@@ -45,7 +44,6 @@ public class Form extends AbstractTimestamp {
     private String title;
 
     @Column(nullable = false)
-    @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Timestamp dueDate;
 
