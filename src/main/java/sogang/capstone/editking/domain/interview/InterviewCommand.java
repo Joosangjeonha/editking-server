@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 
 public class InterviewCommand {
 
@@ -12,10 +13,10 @@ public class InterviewCommand {
     @ToString
     public static class AnalyzeInterviewRequest {
 
-        private List<String> content;
+        private String context;
 
         public AnalyzeInterviewRequest(List<String> questionList) {
-            content = questionList;
+            context = StringUtils.join(questionList, "");
         }
     }
 }
