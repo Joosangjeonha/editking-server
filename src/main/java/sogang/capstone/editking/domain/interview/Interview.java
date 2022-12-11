@@ -1,27 +1,25 @@
-package sogang.capstone.editking.domain.form.interview;
+package sogang.capstone.editking.domain.interview;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import sogang.capstone.editking.common.exception.BadRequestException;
 import sogang.capstone.editking.domain.AbstractTimestamp;
-import sogang.capstone.editking.domain.form.Form;
 
 @Getter
 @Entity
 @Table(name = "Interview")
+@DynamicUpdate
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Interview extends AbstractTimestamp {
@@ -33,9 +31,7 @@ public class Interview extends AbstractTimestamp {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "formId", nullable = false)
-    private Form form;
+    private Long formId;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -45,13 +41,13 @@ public class Interview extends AbstractTimestamp {
     public Interview(
             Long id,
             String content,
-            Form form,
+            Long formId,
             String category
     ) {
         if (content == null) {
             throw new BadRequestException("내용은 필수값입니다.");
         }
-        if (form == null) {
+        if (formId == null) {
             throw new BadRequestException("자기소개서는 필수값입니다.");
         }
         if (category == null) {
@@ -60,7 +56,7 @@ public class Interview extends AbstractTimestamp {
 
         this.id = id;
         this.content = content;
-        this.form = form;
+        this.formId = formId;
         this.category = InterviewCategory.valueOf(category);
     }
 }

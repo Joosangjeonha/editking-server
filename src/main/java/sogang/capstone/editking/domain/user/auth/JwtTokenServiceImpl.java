@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import sogang.capstone.editking.domain.user.UserInfo;
 import sogang.capstone.editking.domain.user.UserInfo.Id;
 import sogang.capstone.editking.domain.user.UserInfo.Token;
 import sogang.capstone.editking.domain.user.UserInfoMapper;
@@ -30,7 +31,12 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     private String JWT_SECRET;
 
     @Override
-    public Token encodeJwtToken(Id userId) {
+    public Token encodeToken(String accessToken, String refreshToken) {
+        return userInfoMapper.of(accessToken, refreshToken);
+    }
+
+    @Override
+    public String encodeJwtToken(Id userId) {
         Date now = new Date();
 
         String token = Jwts.builder()
@@ -45,7 +51,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                         Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
                                 StandardCharsets.UTF_8)))
                 .compact();
-        return userInfoMapper.of(token);
+        return token;
     }
 
     @Override
@@ -64,19 +70,19 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
-    public Long getUserIdFromJwtToken(String token) {
+    public UserInfo.Id getUserIdFromJwtToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
                         StandardCharsets.UTF_8)))
                 .parseClaimsJws(token)
                 .getBody();
-        return Long.parseLong(claims.getSubject());
+        return userInfoMapper.of(Long.parseLong(claims.getSubject()));
     }
 
     @Override
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(
-                this.getUserIdFromJwtToken(token).toString());
+                this.getUserIdFromJwtToken(token).getId().toString());
         return new UsernamePasswordAuthenticationToken(userDetails, "",
                 userDetails.getAuthorities());
     }

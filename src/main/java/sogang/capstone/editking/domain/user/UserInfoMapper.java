@@ -15,9 +15,11 @@ import sogang.capstone.editking.domain.user.auth.NaverInfo;
 )
 public interface UserInfoMapper {
 
-    UserInfo.Id of(User user);
+    UserInfo.Main of(User user);
 
-    UserInfo.Token of(String accessToken);
+    UserInfo.Id of(Long id);
+
+    UserInfo.Token of(String accessToken, String refreshToken);
 
     @Mappings({
             @Mapping(source = "kakaoUser.authenticationCode", target = "authenticationCode"),
@@ -30,4 +32,5 @@ public interface UserInfoMapper {
             @Mapping(expression = "java(naverUser.getResponse().getNickname())", target = "name"),
     })
     UserInfo.Login of(NaverInfo.User naverUser);
+
 }

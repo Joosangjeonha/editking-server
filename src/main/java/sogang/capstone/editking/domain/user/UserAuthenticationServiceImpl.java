@@ -20,7 +20,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
 
         UserInfo.Id userId;
         if (registeredUser.isPresent()) {
-            userId = userInfoMapper.of(registeredUser.get());
+            userId = userInfoMapper.of(registeredUser.get().getId());
         } else {
             User newUser = User.builder()
                     .name(userInfo.getName())
@@ -30,16 +30,22 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
                     .build();
             userStore.store(newUser);
 
-            userId = userInfoMapper.of(newUser);
+            userId = userInfoMapper.of(newUser.getId());
         }
 
         return userId;
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void updateRefreshToken(UserInfo.Id userId, String refreshToken) {
         User user = userReader.getUser(userId.getId());
         user.setNewRefreshToken(refreshToken);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void validateLatestDevice(String refreshToken) {
+        userReader.findByRefreshToken(refreshToken);
     }
 }

@@ -10,6 +10,15 @@ public class UserInfo {
     @Getter
     @Setter
     @ToString
+    public static class Main {
+
+        private String name;
+        private String plan;
+    }
+
+    @Getter
+    @Setter
+    @ToString
     public static class Login {
 
         private String authenticationCode;
@@ -32,6 +41,7 @@ public class UserInfo {
     public static class Token {
 
         private final String accessToken;
+        private final String refreshToken;
 
     }
 }

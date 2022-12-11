@@ -52,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(SwaggerPatterns).permitAll()
                 .antMatchers("/user/kakao").permitAll()
                 .antMatchers("/user/naver").permitAll()
+                .antMatchers("/user/refresh").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter,

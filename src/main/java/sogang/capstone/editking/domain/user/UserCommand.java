@@ -24,4 +24,14 @@ public class UserCommand {
         private final String state;
 
     }
+
+    @Getter
+    @Builder
+    @ToString
+    public static class EditAccountRequest {
+
+        private final String name;
+        private final String plan;
+
+    }
 }

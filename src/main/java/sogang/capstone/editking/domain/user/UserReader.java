@@ -9,4 +9,6 @@ public interface UserReader {
     Optional<User> findById(Long id);
 
     Optional<User> findByAuthenticationCode(String authenticationCode);
+
+    User findByRefreshToken(String refreshToken);
 }

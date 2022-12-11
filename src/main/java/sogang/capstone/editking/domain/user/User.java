@@ -16,16 +16,18 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import sogang.capstone.editking.domain.form.Form;
-import sogang.capstone.editking.domain.AbstractTimestamp;
 import sogang.capstone.editking.common.exception.BadRequestException;
+import sogang.capstone.editking.domain.AbstractTimestamp;
+import sogang.capstone.editking.domain.form.Form;
 
 @Getter
 @Entity
 @Table(name = "User")
+@DynamicUpdate
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class User extends AbstractTimestamp implements UserDetails {
@@ -82,8 +84,25 @@ public class User extends AbstractTimestamp implements UserDetails {
         this.plan = PlanStatus.STANDARD;
     }
 
+    public void editAccount(UserCommand.EditAccountRequest request) {
+        updateName(request.getName());
+        updatePlan(request.getPlan());
+    }
+
     public void setNewRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public void updateName(String name) {
+        if (name != null) {
+            this.name = name;
+        }
+    }
+
+    public void updatePlan(String plan) {
+        if (plan != null) {
+            this.plan = PlanStatus.valueOf(plan);
+        }
     }
 
     @Override

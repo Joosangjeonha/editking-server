@@ -1,7 +1,8 @@
-package sogang.capstone.editking.domain.form.interview;
+package sogang.capstone.editking.domain.interview;
 
 public enum InterviewCategory {
 
+    CHARACTER("인성"),
     COOPERATION("협업"),
     JOB("직무");
 

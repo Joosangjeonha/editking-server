@@ -26,12 +26,13 @@ public class UserAuthenticationFacade {
 
         UserInfo.Id userId = userAuthenticationService.loginWithUserInformation(kakaoUser, "kakao");
 
+        String accessToken = jwtTokenService.encodeJwtToken(userId);
         String refreshToken = jwtTokenService.encodeJwtRefreshToken(userId);
-        UserInfo.Token accessToken = jwtTokenService.encodeJwtToken(userId);
-
         userAuthenticationService.updateRefreshToken(userId, refreshToken);
 
-        return accessToken;
+        UserInfo.Token token = jwtTokenService.encodeToken(accessToken, refreshToken);
+
+        return token;
     }
 
     public UserInfo.Token loginWithNaver(UserCommand.NaverRequest request) {
@@ -41,11 +42,26 @@ public class UserAuthenticationFacade {
 
         UserInfo.Id userId = userAuthenticationService.loginWithUserInformation(naverUser, "naver");
 
+        String accessToken = jwtTokenService.encodeJwtToken(userId);
         String refreshToken = jwtTokenService.encodeJwtRefreshToken(userId);
-        UserInfo.Token accessToken = jwtTokenService.encodeJwtToken(userId);
-
         userAuthenticationService.updateRefreshToken(userId, refreshToken);
 
-        return accessToken;
+        UserInfo.Token token = jwtTokenService.encodeToken(accessToken, refreshToken);
+
+        return token;
+    }
+
+    public UserInfo.Token refreshTokens(String refreshToken) {
+
+        userAuthenticationService.validateLatestDevice(refreshToken);
+        UserInfo.Id userId = jwtTokenService.getUserIdFromJwtToken(refreshToken);
+
+        String newAccessToken = jwtTokenService.encodeJwtToken(userId);
+        String newRefreshToken = jwtTokenService.encodeJwtRefreshToken(userId);
+        userAuthenticationService.updateRefreshToken(userId, newRefreshToken);
+
+        UserInfo.Token token = jwtTokenService.encodeToken(newAccessToken, newRefreshToken);
+
+        return token;
     }
 }

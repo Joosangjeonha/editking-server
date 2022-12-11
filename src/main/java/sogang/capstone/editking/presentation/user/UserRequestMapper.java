@@ -18,4 +18,7 @@ public interface UserRequestMapper {
     // naver
     UserCommand.NaverRequest of(UserRequest.NaverRequest request);
 
+    // edit
+    UserCommand.EditAccountRequest of(UserRequest.EditAccountRequest request);
+
 }
