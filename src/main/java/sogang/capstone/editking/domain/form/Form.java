@@ -23,9 +23,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import sogang.capstone.editking.common.event.Events;
 import sogang.capstone.editking.common.exception.BadRequestException;
 import sogang.capstone.editking.common.util.TimestampParser;
 import sogang.capstone.editking.domain.AbstractTimestamp;
+import sogang.capstone.editking.domain.form.event.SubmittedEvent;
 import sogang.capstone.editking.domain.user.User;
 
 @Getter
@@ -133,7 +135,7 @@ public class Form extends AbstractTimestamp {
             this.status = formStatus;
         }
         if (this.status == FormStatus.SUBMITTED) {
-//            Events.raise(new SubmittedEvent(this));
+            Events.raise(new SubmittedEvent(this));
         }
     }
 }
