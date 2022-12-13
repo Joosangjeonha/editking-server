@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sogang.capstone.editking.common.exception.ForbiddenException;
 import sogang.capstone.editking.common.response.ErrorCode;
-import sogang.capstone.editking.domain.form.event.SubmittedEvent;
 import sogang.capstone.editking.domain.user.User;
 
 @Service
@@ -76,8 +75,5 @@ public class FormServiceImpl implements FormService {
                 .ifPresent(question -> question.updateContent(request.getContent()));
 
         form.updateFormStatus(request.getFormStatus());
-        if (form.getStatus() == FormStatus.SUBMITTED) {
-            publisher.publishEvent(new SubmittedEvent(this, form));
-        }
     }
 }

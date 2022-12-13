@@ -132,5 +132,8 @@ public class Form extends AbstractTimestamp {
         if (!this.status.equals(formStatus)) {
             this.status = formStatus;
         }
+        if (this.status == FormStatus.SUBMITTED) {
+//            Events.raise(new SubmittedEvent(this));
+        }
     }
 }
