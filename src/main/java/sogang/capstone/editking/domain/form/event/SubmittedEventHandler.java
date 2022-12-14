@@ -3,17 +3,21 @@ package sogang.capstone.editking.domain.form.event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import sogang.capstone.editking.common.event.EventHandler;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 import sogang.capstone.editking.domain.interview.InterviewService;
 
 @Component
 @RequiredArgsConstructor
-public class SubmittedEventHandler implements EventHandler<SubmittedEvent> {
+public class SubmittedEventHandler {
 
     private final InterviewService interviewService;
-
+    
     @Async
-    @Override
+    @TransactionalEventListener(
+            classes = SubmittedEvent.class,
+            phase = TransactionPhase.AFTER_COMMIT
+    )
     public void handle(SubmittedEvent event) {
         interviewService.analyzeInterview(event);
     }

@@ -15,6 +15,7 @@ public class SubmittedEvent extends Event {
     private List<String> questionList;
 
     public SubmittedEvent(Form form) {
+        super();
         this.formId = FormInfo.Id.builder().id(form.getId()).build();
         this.questionList = form.getQuestionList().stream().map(Question::getContent).collect(Collectors.toList());
     }
