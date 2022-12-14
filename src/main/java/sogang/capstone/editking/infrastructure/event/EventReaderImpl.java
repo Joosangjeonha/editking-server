@@ -15,8 +15,8 @@ public class EventReaderImpl implements EventReader {
     private final EventEntryRepository eventEntryRepository;
 
     @Override
-    public List<EventEntry> getEventList(Integer offset, Integer limit) {
-        Pageable limitPageable = PageRequest.of(offset, limit);
+    public List<EventEntry> getEventList(Long offset, Integer limit) {
+        Pageable limitPageable = PageRequest.of(Math.toIntExact(offset), limit);
         return eventEntryRepository.findEventEntryList(limitPageable);
     }
 }

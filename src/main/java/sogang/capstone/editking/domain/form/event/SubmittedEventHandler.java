@@ -12,7 +12,7 @@ import sogang.capstone.editking.domain.interview.InterviewService;
 public class SubmittedEventHandler {
 
     private final InterviewService interviewService;
-    
+
     @Async
     @TransactionalEventListener(
             classes = SubmittedEvent.class,
