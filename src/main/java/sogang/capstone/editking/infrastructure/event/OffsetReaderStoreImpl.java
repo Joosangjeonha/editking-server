@@ -10,7 +10,6 @@ public class OffsetReaderStoreImpl implements OffsetReaderStore {
 
     @Override
     public long get() {
-        System.out.println("nextOffset : " + nextOffset);
         return nextOffset;
     }
 
