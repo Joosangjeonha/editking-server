@@ -24,14 +24,6 @@ public class FormInfo {
     @Getter
     @Builder
     @ToString
-    public static class Id {
-
-        private final Long id;
-    }
-
-    @Getter
-    @Builder
-    @ToString
     public static class Question {
 
         private final Long idx;

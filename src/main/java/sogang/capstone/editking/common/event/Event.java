@@ -1,13 +1,13 @@
 package sogang.capstone.editking.common.event;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public abstract class Event {
 
-    private long timestamp;
-
     public Event() {
-        this.timestamp = System.currentTimeMillis();
+        
     }
 }

@@ -21,7 +21,7 @@ public class EventForwarder {
         this.eventSender = eventSender;
     }
 
-    @Scheduled(initialDelay = 1 * 1000, fixedDelay = 60 * 1000)
+    @Scheduled(initialDelay = 1 * 1000, fixedDelay = 5 * 1000)
     public void getAndSend() {
         Long nextOffset = getNextOffset();
         List<EventEntry> events = eventReader.getEventList(nextOffset, DEFAULT_LIMIT_SIZE);
@@ -44,7 +44,7 @@ public class EventForwarder {
                 eventSender.send(entry);
                 processedCount++;
             }
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             log.info(events.get(processedCount).getId() + "번 이벤트 처리 실패");
         }
         return processedCount;

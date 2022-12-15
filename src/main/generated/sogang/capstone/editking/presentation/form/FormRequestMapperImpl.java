@@ -19,7 +19,7 @@ import sogang.capstone.editking.presentation.form.FormRequest.UpdateQuestionRequ
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-13T18:37:58+0900",
+    date = "2022-12-15T03:39:41+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component
