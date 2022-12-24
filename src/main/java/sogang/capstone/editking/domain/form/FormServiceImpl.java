@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sogang.capstone.editking.common.exception.ForbiddenException;
 import sogang.capstone.editking.common.response.ErrorCode;
-import sogang.capstone.editking.domain.event.EventStore;
+import sogang.capstone.editking.domain.form.event.EventStore;
 import sogang.capstone.editking.domain.form.event.SubmittedEvent;
 import sogang.capstone.editking.domain.user.User;
 

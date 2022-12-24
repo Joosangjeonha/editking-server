@@ -3,8 +3,8 @@ package sogang.capstone.editking.infrastructure.event;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import sogang.capstone.editking.domain.event.EventEntry;
-import sogang.capstone.editking.domain.event.EventReader;
+import sogang.capstone.editking.domain.form.event.EventEntry;
+import sogang.capstone.editking.domain.form.event.EventReader;
 
 @Component
 @RequiredArgsConstructor

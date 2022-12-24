@@ -1,7 +1,7 @@
 package sogang.capstone.editking.infrastructure.event;
 
 import org.springframework.stereotype.Component;
-import sogang.capstone.editking.domain.event.OffsetReaderStore;
+import sogang.capstone.editking.domain.form.event.OffsetReaderStore;
 
 @Component
 public class OffsetReaderStoreImpl implements OffsetReaderStore {

@@ -1,4 +1,4 @@
-package sogang.capstone.editking.domain.event;
+package sogang.capstone.editking.domain.form.event;
 
 import java.util.List;
 

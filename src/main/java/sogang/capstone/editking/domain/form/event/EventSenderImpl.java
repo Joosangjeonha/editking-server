@@ -1,4 +1,4 @@
-package sogang.capstone.editking.domain.event;
+package sogang.capstone.editking.domain.form.event;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

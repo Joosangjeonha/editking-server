@@ -1,4 +1,4 @@
-package sogang.capstone.editking.domain.event;
+package sogang.capstone.editking.domain.form.event;
 
 public interface OffsetReaderStore {
 
