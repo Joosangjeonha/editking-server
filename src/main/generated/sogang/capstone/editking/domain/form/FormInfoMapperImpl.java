@@ -12,7 +12,7 @@ import sogang.capstone.editking.domain.form.FormInfo.SynonymMain.SynonymMainBuil
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-10T16:54:13+0900",
+    date = "2022-12-15T03:39:41+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Amazon.com Inc.)"
 )
 @Component

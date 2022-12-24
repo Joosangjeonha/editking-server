@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import sogang.capstone.editking.domain.form.event.SubmittedEvent;
 import sogang.capstone.editking.domain.interview.InterviewCommand.AnalyzeInterviewRequest;
@@ -23,7 +24,7 @@ public class InterviewServiceImpl implements InterviewService {
     private final InterviewStore interviewStore;
 
     @Override
-    public void analyzeInterview(SubmittedEvent event) {
+    public void analyzeInterview(SubmittedEvent event) throws RuntimeException {
         InterviewCommand.AnalyzeInterviewRequest analyzeInterviewRequest = new AnalyzeInterviewRequest(
                 event.getQuestionList());
 
@@ -43,18 +44,23 @@ public class InterviewServiceImpl implements InterviewService {
         HttpEntity<InterviewCommand.AnalyzeInterviewRequest> entity = new HttpEntity<>(analyzeInterviewRequest,
                 headers);
 
-        ResponseEntity<InterviewInfo.AnalyzedInterview> analyzedResult = restTemplate.exchange(
-                "http://172.31.13.94:5001/ner/inference",
-                org.springframework.http.HttpMethod.POST,
-                entity,
-                AnalyzedInterview.class
-        );
+        ResponseEntity<InterviewInfo.AnalyzedInterview> analyzedResult;
+        try {
+            analyzedResult = restTemplate.exchange(
+                    "http://172.31.13.94:5001/ner/inference",
+                    org.springframework.http.HttpMethod.POST,
+                    entity,
+                    AnalyzedInterview.class
+            );
+        } catch (ResourceAccessException e) {
+            throw new RuntimeException(e.getMessage());
+        }
 
         List<String> interviewList = analyzedResult.getBody().getResult();
 
         interviewList.forEach(result -> {
             Interview interview = Interview.builder().content(result).category("JOB")
-                    .formId(event.getFormId().getId()).build();
+                    .formId(event.getFormId()).build();
             interviewStore.store(interview);
         });
     }
